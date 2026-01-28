@@ -3,14 +3,20 @@ const tg = window.Telegram?.WebApp;
 
 if (tg) {
     tg.expand();
+
+    // Initialize Telegram Back Button
+    tg.BackButton.onClick(() => {
+        prevStep();
+    });
 }
 
 // Translations
 const translations = {
     ru: {
-        header_get_osago: "Получить ОСАГО",
-        hero_desc: "Простое и понятное страхование.<br>Оформите ОСАГО за несколько минут.",
-        hero_btn: "Начать онлайн &rarr;",
+        header_btn_buy: "Купить ОСАГО",
+        hero_heading: "Оформление ОСАГО — мгновенно",
+        hero_desc: "Купите ОСАГО онлайн за 5 минут —<br>без очередей и бумаг.",
+        hero_cta: "Купить ОСАГО Online",
         badge_soon: "Скоро",
         products_title: "Другие страховые продукты",
         products_desc: "Мы создаем полноценную страховую платформу. Эти продукты появятся в ближайшее время.",
@@ -62,12 +68,14 @@ const translations = {
         label_car_number: "Номер машины",
         label_tech_passport: "Серия и номер тех паспорта",
         terms_agree: "Нажимая продолжить Вы соглашаетесь с <a href='#'>Офертой</a> и даете согласие на обработку своих персональных данных",
+        btn_back: "&larr; Назад",
         btn_continue: "Продолжить &rarr;"
     },
     uz: {
-        header_get_osago: "OSAGO olish",
-        hero_desc: "Oddiy va tushunarli sug'urta.<br>OSAGO ni bir necha daqiqada rasmiylashtiring.",
-        hero_btn: "Onlayn boshlash &rarr;",
+        header_btn_buy: "OSAGO sotib olish",
+        hero_heading: "OSAGO rasmiylashtirish — bir zumda",
+        hero_desc: "OSAGO ni 5 daqiqada onlayn xarid qiling —<br>navbat va qog'ozlarsiz.",
+        hero_cta: "OSAGO sotib olish (Online)",
         badge_soon: "Tez orada",
         products_title: "Boshqa sug'urta mahsulotlari",
         products_desc: "Biz to'liq sug'urta platformasini yaratmoqdamiz. Ushbu mahsulotlar yaqin orada paydo bo'ladi.",
@@ -119,12 +127,14 @@ const translations = {
         label_car_number: "Mashina raqami",
         label_tech_passport: "Texnik pasport seriyasi va raqami",
         terms_agree: "Davom etish tugmasini bosish orqali siz <a href='#'>Oferta</a> ga rozilik bildirasiz va shaxsiy ma'lumotlaringizni qayta ishlashga ruxsat berasiz",
+        btn_back: "&larr; Orqaga",
         btn_continue: "Davom etish &rarr;"
     },
     en: {
-        header_get_osago: "Get OSAGO",
-        hero_desc: "Simple and clear insurance.<br>Get OSAGO in a few minutes.",
-        hero_btn: "Start Online &rarr;",
+        header_btn_buy: "Buy OSAGO",
+        hero_heading: "OSAGO registration — instantly",
+        hero_desc: "Buy OSAGO online in 5 minutes —<br>no queues, no paperwork.",
+        hero_cta: "Buy OSAGO Online",
         badge_soon: "Coming Soon",
         products_title: "Other Insurance Products",
         products_desc: "We are building a complete insurance platform. These products will appear soon.",
@@ -176,6 +186,7 @@ const translations = {
         label_car_number: "Car Number",
         label_tech_passport: "Tech Passport Series & Number",
         terms_agree: "By clicking continue, you agree to the <a href='#'>Offer</a> and consent to the processing of your personal data",
+        btn_back: "&larr; Back",
         btn_continue: "Continue &rarr;"
     }
 };
@@ -224,12 +235,25 @@ function closeWizard() {
 
 function resetWizard() {
     currentStep = 1;
+    drivers = [];
+    renderDrivers();
     updateWizardUI();
-    // Reset form fields if needed, or simple reset
     document.getElementById('agree_terms').checked = false;
 }
 
 function updateWizardUI() {
+
+
+    // 0. Update Telegram Back Button Visibility & Web Back Button
+    const backBtn = document.getElementById('btn_back');
+    if (currentStep > 1) {
+        if (tg && tg.BackButton) tg.BackButton.show();
+        if (backBtn) backBtn.style.display = 'block';
+    } else {
+        if (tg && tg.BackButton) tg.BackButton.hide();
+        if (backBtn) backBtn.style.display = 'none';
+    }
+
     // 1. Show/Hide Step Content
     for (let i = 1; i <= totalSteps; i++) {
         const stepContent = document.getElementById(`step_${i}_content`);
@@ -251,18 +275,25 @@ function updateWizardUI() {
         }
     });
 
-    // 3. Update Button Text (optional but good UX)
+    // 3. Update Button Text
     const btn = document.querySelector('.wizard-footer .btn-primary');
     if (btn) {
         if (currentStep === totalSteps) {
-            // Pay / Finish
             btn.innerHTML = 'Оплатить 56,000 UZS';
         } else {
-            // Continue
-            // checking translation key, but simple overwrite is safer for logic
             const continueText = translations[currentLang]?.btn_continue || "Продолжить &rarr;";
             btn.innerHTML = continueText;
         }
+    }
+
+    // 4. Special Logic for Step 6 (Confirmation)
+    if (currentStep === 6) {
+        updateConfirmationSummary();
+    }
+
+    // 5. Special Logic for Step 5 (Drivers Initial Load)
+    if (currentStep === 5 && drivers.length === 0) {
+        addDriver(true); // Add initial default driver (Owner)
     }
 }
 
@@ -275,11 +306,19 @@ function submitWizard() {
         const agree = document.getElementById('agree_terms').checked;
 
         if (!agree) {
-            alert("Пожалуйста, согласитесь с условиями оферты.");
+            showAlert(currentLang === 'uz' ? "Iltimos, oferta shartlariga rozilik bildiring." : "Пожалуйста, согласитесь с условиями оферты.");
             return;
         }
         if (!carNumber || !techSeries || !techNumber) {
-            alert("Пожалуйста, заполните все поля.");
+            showAlert(currentLang === 'uz' ? "Iltimos, barcha maydonlarni to'ldiring." : "Пожалуйста, заполните все поля.");
+            return;
+        }
+    }
+
+    if (currentStep === 2) {
+        const pinfl = document.getElementById('owner_pinfl').value;
+        if (!pinfl || pinfl.length < 14) {
+            showAlert("Пожалуйста, введите корректный ПИНФЛ (14 цифр)");
             return;
         }
     }
@@ -294,7 +333,7 @@ function submitWizard() {
         if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
             tg.sendData(JSON.stringify(data));
         } else {
-            alert(`Payment Simulation:\nProcessing payment...`);
+            showAlert(`Payment Simulation:\nProcessing payment...`, 'success');
             closeWizard();
         }
         return;
@@ -305,6 +344,13 @@ function submitWizard() {
     updateWizardUI();
 }
 
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        updateWizardUI();
+    }
+}
+
 function toggleApplicantFields() {
     const isOwner = document.getElementById('applicant_is_owner').checked;
     const fields = document.getElementById('applicant_fields');
@@ -312,3 +358,139 @@ function toggleApplicantFields() {
         fields.style.display = isOwner ? 'none' : 'block';
     }
 }
+
+// Drivers Management
+let drivers = [];
+
+function addDriver(isOwner = false) {
+    const id = Date.now();
+    const driver = {
+        id: id,
+        name: isOwner ? "Владелец (Шаг 2)" : `Водитель ${drivers.length + 1}`,
+        isOwner: isOwner
+    };
+    drivers.push(driver);
+    renderDrivers();
+}
+
+function removeDriver(id) {
+    drivers = drivers.filter(d => d.id !== id);
+    renderDrivers();
+}
+
+function renderDrivers() {
+    const list = document.getElementById('drivers_list');
+    if (!list) return;
+    list.innerHTML = '';
+
+    drivers.forEach(driver => {
+        const div = document.createElement('div');
+        div.className = 'driver-item';
+        div.innerHTML = `
+            <div class="driver-info">
+                <h4>${driver.name}</h4>
+                <p>${driver.isOwner ? 'Данные из раздела Владелец' : 'Необходимы паспортные данные (в полной версии)'}</p>
+            </div>
+            ${!driver.isOwner ? `<button class="remove-driver" onclick="removeDriver(${driver.id})">Удалить</button>` : ''}
+        `;
+        list.appendChild(div);
+    });
+}
+
+function toggleDriversList() {
+    const unlimited = document.getElementById('unlimited_drivers').checked;
+    const container = document.getElementById('drivers_container');
+    if (container) {
+        container.style.display = unlimited ? 'none' : 'block';
+    }
+}
+
+function updateConfirmationSummary() {
+    document.getElementById('sum_car_number').textContent = document.getElementById('car_number').value || '-';
+    document.getElementById('sum_tech_passport').textContent = `${document.getElementById('tech_series').value} ${document.getElementById('tech_number').value}`.trim() || '-';
+    document.getElementById('sum_owner_pinfl').textContent = document.getElementById('owner_pinfl').value || '-';
+    document.getElementById('sum_owner_passport').textContent = `${document.getElementById('owner_pass_series').value} ${document.getElementById('owner_pass_number').value}`.trim() || '-';
+
+    const unlimited = document.getElementById('unlimited_drivers').checked;
+    document.getElementById('sum_drivers_type').textContent = unlimited ? 'Без ограничений (VIP)' : `Ограниченно (${drivers.length})`;
+}
+
+function startQuickQuote() {
+    const carNumber = document.getElementById('hero_car_number').value;
+    if (!carNumber) {
+        showAlert("Введите гос. номер автомобиля");
+        return;
+    }
+
+    // Smooth transition to Wizard
+    openWizard();
+    document.getElementById('car_number').value = carNumber.toUpperCase();
+}
+
+// Custom Alert Logic
+function showAlert(message, type = 'error') {
+    const modal = document.getElementById('custom-alert');
+    const msgEl = document.getElementById('alert-message');
+    const iconEl = document.querySelector('.alert-icon');
+
+    msgEl.innerText = message;
+
+    if (type === 'success') {
+        iconEl.style.background = '#f0fff4';
+        iconEl.style.color = '#48bb78';
+        iconEl.innerHTML = `
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        `;
+    } else {
+        iconEl.style.background = '#fff5f5';
+        iconEl.style.color = '#ff4d4d';
+        iconEl.innerHTML = `
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+        `;
+    }
+
+    modal.style.display = 'flex';
+}
+
+function closeAlert() {
+    document.getElementById('custom-alert').style.display = 'none';
+}
+
+// License Plate Formatting
+function formatLicensePlate(input) {
+    let val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    let formatted = '';
+
+    if (val.length > 0) {
+        formatted += val.substring(0, 2); // Region
+        if (val.length > 2) {
+            formatted += ' ' + val.substring(2, 3); // Letter
+            if (val.length > 3) {
+                formatted += ' ' + val.substring(3, 6); // Number
+                if (val.length > 6) {
+                    formatted += ' ' + val.substring(6, 8); // Series
+                }
+            }
+        }
+    }
+    input.value = formatted.substring(0, 11);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const heroInput = document.getElementById('hero_car_number');
+    const wizardInput = document.getElementById('car_number');
+
+    if (heroInput) {
+        heroInput.addEventListener('input', (e) => formatLicensePlate(e.target));
+    }
+    if (wizardInput) {
+        wizardInput.addEventListener('input', (e) => formatLicensePlate(e.target));
+    }
+});
