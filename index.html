@@ -1,4 +1,4 @@
-<!DOCTYPE html>s
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -7,7 +7,8 @@
     <title>EASY sugurta - Простое и понятное страхование</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="canonical" href="https://easysugurta.uz">
@@ -18,11 +19,12 @@
     <header class="header">
         <div class="container header-container">
             <div class="logo">
-                <span class="logo-bold">EASY</span><br>
-                <span class="logo-light">sugurta</span>
+                <span class="logo-bold">EASY</span>
+                <span class="logo-light">SUGURTA</span>
             </div>
             <nav class="nav">
-                <a href="#" class="nav-link" onclick="openWizard()" data-i18n="header_get_osago">Получить ОСАГО</a>
+                <a href="#" class="nav-link btn-header-cta" onclick="openWizard()" data-i18n="header_btn_buy">Купить
+                    ОСАГО</a>
                 <div class="lang-switcher">
                     <a href="#" class="lang" onclick="setLanguage('uz')">UZ</a> |
                     <a href="#" class="lang" onclick="setLanguage('ru')">RU</a> |
@@ -35,19 +37,152 @@
     <!-- Main Content (Hidden when Wizard is active) -->
     <div id="main-landing">
         <!-- Hero Section -->
-        <section class="hero">
+        <section class="hero-modern">
             <div class="container">
-                <h1 class="hero-title">
-                    <span class="text-blue">EASY</span><br>
-                    <span class="text-sub">sugurta</span>
-                </h1>
-                <p class="hero-desc" data-i18n="hero_desc">
-                    Простое и понятное страхование.<br>
-                    Оформите ОСАГО за несколько минут.
-                </p>
-                <button class="btn btn-primary" onclick="openWizard()" data-i18n="hero_btn">
-                    Начать онлайн &rarr;
-                </button>
+                <div class="hero-wrapper">
+                    <div class="hero-grid">
+                        <!-- Left: Text Content -->
+                        <div class="hero-content">
+                            <div class="hero-badge">Цифровое страхование</div>
+                            <h1 class="hero-heading" data-i18n="hero_heading">OSAGO registration — instantly</h1>
+                            <p class="hero-subheading">Свободный выбор страховой компании и оформление электронного
+                                полиса
+                                онлайн.</p>
+                            <div class="hero-quick-quote">
+                                <div class="plate-group">
+                                    <div class="plate-region-divider"></div>
+                                    <input type="text" id="hero_car_number" placeholder="01 A 123 EA"
+                                        class="plate-input">
+                                    <div class="plate-branding">
+                                        <svg class="plate-flag-svg" viewBox="0 0 500 250"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="500" height="250" fill="#1EB53A" />
+                                            <rect width="500" height="166" fill="#fff" />
+                                            <rect width="500" height="156" y="5" fill="#D52B1E" />
+                                            <rect width="500" height="83" fill="#0099B5" />
+                                            <rect width="500" height="73" y="5" fill="#D52B1E" />
+                                            <rect width="500" height="63" y="10" fill="#0099B5" />
+                                            <rect width="500" height="10" y="73" fill="#D52B1E" />
+                                            <rect width="500" height="10" y="167" fill="#D52B1E" />
+                                            <!-- Blue top -->
+                                            <rect width="500" height="83" fill="#0099B5" />
+                                            <!-- Red stripes -->
+                                            <rect width="500" height="5" y="83" fill="#D52B1E" />
+                                            <rect width="500" height="5" y="162" fill="#D52B1E" />
+                                            <!-- White middle -->
+                                            <rect width="500" height="74" y="88" fill="#fff" />
+                                            <!-- Green bottom -->
+                                            <rect width="500" height="83" y="167" fill="#1EB53A" />
+                                            <!-- Crescent -->
+                                            <circle cx="70" cy="42" r="30" fill="#fff" />
+                                            <circle cx="82" cy="42" r="30" fill="#0099B5" />
+                                            <!-- Stars (Approximate positions for 12 stars) -->
+                                            <g fill="#fff">
+                                                <circle cx="130" cy="25" r="3" />
+                                                <circle cx="160" cy="25" r="3" />
+                                                <circle cx="190" cy="25" r="3" />
+                                                <circle cx="115" cy="42" r="3" />
+                                                <circle cx="145" cy="42" r="3" />
+                                                <circle cx="175" cy="42" r="3" />
+                                                <circle cx="205" cy="42" r="3" />
+                                                <circle cx="130" cy="59" r="3" />
+                                                <circle cx="160" cy="59" r="3" />
+                                                <circle cx="190" cy="59" r="3" />
+                                                <circle cx="220" cy="59" r="3" />
+                                                <circle cx="250" cy="59" r="3" />
+                                            </g>
+                                        </svg>
+                                        <div class="plate-uz">UZ</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-hero-cta" style="padding: 12px 24px;"
+                                    onclick="startQuickQuote()">Начать</button>
+                            </div>
+                            <div class="hero-trust">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                </svg>
+                                <span>Безопасно</span>
+                                <span class="trust-divider">•</span>
+                                <span>Официально</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: Visual Card -->
+                        <div class="hero-visual">
+                            <div class="glass-card">
+                                <div class="glass-card-header">
+                                    <div class="car-icon">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.5">
+                                            <path
+                                                d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2" />
+                                            <circle cx="6.5" cy="16.5" r="2.5" />
+                                            <circle cx="16.5" cy="16.5" r="2.5" />
+                                        </svg>
+                                    </div>
+                                    <div class="card-title">ОСАГО онлайн</div>
+                                </div>
+                                <div class="glass-card-steps">
+                                    <div class="step-item active">
+                                        <div class="step-number">1</div>
+                                        <div class="step-text">Данные авто</div>
+                                    </div>
+                                    <div class="step-item">
+                                        <div class="step-number">2</div>
+                                        <div class="step-text">Выбор компании</div>
+                                    </div>
+                                    <div class="step-item">
+                                        <div class="step-number">3</div>
+                                        <div class="step-text">Получение полиса</div>
+                                    </div>
+                                </div>
+                                <div class="glass-card-footer">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Benefits Row -->
+                    <div class="hero-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                    <polyline points="2 17 12 22 22 17" />
+                                    <polyline points="2 12 12 17 22 12" />
+                                </svg>
+                            </div>
+                            <span>Выбор страховых компаний</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                            </div>
+                            <span>Оформление за несколько минут</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                            </div>
+                            <span>Электронный официальный полис</span>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -264,7 +399,7 @@
 
     <!-- Wizard Interface (Hidden by default) -->
     <div id="wizard-container" style="display: none;">
-        <div class="container">
+        <div class="container container-narrow">
             <div class="wizard-header">
                 <h2 class="wizard-title" data-i18n="wizard_title">ОФОРМИТЬ ОСАГО ОНЛАЙН</h2>
             </div>
@@ -310,7 +445,38 @@
                     <div class="form-row">
                         <div class="form-group col-half">
                             <label data-i18n="label_car_number">Номер машины</label>
-                            <input type="text" id="car_number" placeholder="01 A 000 AA" class="input-lg">
+                            <div class="plate-group">
+                                <div class="plate-region-divider"></div>
+                                <input type="text" id="car_number" placeholder="01 A 123 EA" class="plate-input">
+                                <div class="plate-branding">
+                                    <svg class="plate-flag-svg" viewBox="0 0 500 250"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="500" height="250" fill="#1EB53A" />
+                                        <rect width="500" height="83" fill="#0099B5" />
+                                        <rect width="500" height="5" y="83" fill="#D52B1E" />
+                                        <rect width="500" height="5" y="162" fill="#D52B1E" />
+                                        <rect width="500" height="74" y="88" fill="#fff" />
+                                        <rect width="500" height="83" y="167" fill="#1EB53A" />
+                                        <circle cx="70" cy="42" r="30" fill="#fff" />
+                                        <circle cx="82" cy="42" r="30" fill="#0099B5" />
+                                        <g fill="#fff">
+                                            <circle cx="130" cy="25" r="3" />
+                                            <circle cx="160" cy="25" r="3" />
+                                            <circle cx="190" cy="25" r="3" />
+                                            <circle cx="115" cy="42" r="3" />
+                                            <circle cx="145" cy="42" r="3" />
+                                            <circle cx="175" cy="42" r="3" />
+                                            <circle cx="205" cy="42" r="3" />
+                                            <circle cx="130" cy="59" r="3" />
+                                            <circle cx="160" cy="59" r="3" />
+                                            <circle cx="190" cy="59" r="3" />
+                                            <circle cx="220" cy="59" r="3" />
+                                            <circle cx="250" cy="59" r="3" />
+                                        </g>
+                                    </svg>
+                                    <div class="plate-uz">UZ</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group col-half">
                             <label data-i18n="label_tech_passport">Серия и номер тех паспорта</label>
@@ -387,37 +553,56 @@
                     <h3 class="step-title" data-i18n="step_5">Водители</h3>
                     <div class="form-group">
                         <div class="checkbox-wrapper" style="margin-bottom: 20px;">
-                            <input type="checkbox" id="unlimited_drivers">
+                            <input type="checkbox" id="unlimited_drivers" onchange="toggleDriversList()">
                             <label for="unlimited_drivers">Без ограничения водителей (VIP)</label>
                         </div>
                     </div>
-                    <div id="drivers_list">
-                        <div class="driver-item"
-                            style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
-                            <h4 style="margin-bottom: 10px;">Водитель 1 (Владелец)</h4>
-                            <p style="color: #666; font-size: 14px;">Данные будут взяты из шага 2</p>
+                    <div id="drivers_container">
+                        <div id="drivers_list">
+                            <!-- Drivers will be added here -->
                         </div>
+                        <button class="btn btn-secondary-outline" onclick="addDriver()" id="add_driver_btn">
+                            + Добавить водителя
+                        </button>
                     </div>
-                    <button class="btn btn-secondary"
-                        style="border: 1px solid #1A3A5E; color: #1A3A5E; background: transparent; margin-top: 10px;">+
-                        Добавить водителя</button>
                 </div>
 
                 <!-- Step 6: Confirmation -->
                 <div id="step_6_content" class="wizard-step" style="display: none;">
                     <h3 class="step-title" data-i18n="step_6">Подтверждение</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #666;">Авто:</span>
-                            <span style="font-weight: 600;" id="review_car">---</span>
+                    <div class="confirmation-summary">
+                        <div class="summary-section">
+                            <h4>Транспортное средство</h4>
+                            <div class="summary-item">
+                                <span>Гос. номер:</span>
+                                <span id="sum_car_number">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Техпаспорт:</span>
+                                <span id="sum_tech_passport">-</span>
+                            </div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #666;">Владелец:</span>
-                            <span style="font-weight: 600;" id="review_owner">---</span>
+                        <div class="summary-section">
+                            <h4>Владелец</h4>
+                            <div class="summary-item">
+                                <span>ПИНФЛ:</span>
+                                <span id="sum_owner_pinfl">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Паспорт:</span>
+                                <span id="sum_owner_passport">-</span>
+                            </div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: #666;">Период:</span>
-                            <span style="font-weight: 600;" id="review_period">1 год</span>
+                        <div class="summary-section">
+                            <h4>Условия</h4>
+                            <div class="summary-item">
+                                <span>Период:</span>
+                                <span>1 год</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Водители:</span>
+                                <span id="sum_drivers_type">-</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -425,23 +610,32 @@
                 <!-- Step 7: Payment -->
                 <div id="step_7_content" class="wizard-step" style="display: none;">
                     <h3 class="step-title" data-i18n="step_7">Оплата</h3>
-                    <div style="text-align: center; padding: 20px;">
-                        <p style="font-size: 18px; color: #666; margin-bottom: 20px;">Сумма к оплате:</p>
-                        <h2 style="font-size: 36px; color: #1A3A5E; margin-bottom: 30px;">56,000 UZS</h2>
+                    <div class="payment-selection">
+                        <p class="payment-label">Сумма к оплате:</p>
+                        <h2 class="payment-amount">56,000 UZS</h2>
 
-                        <div style="display: flex; justify-content: center; gap: 20px;">
-                            <div
-                                style="border: 1px solid #ddd; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
-                                Payme
-                            </div>
-                            <div
-                                style="border: 1px solid #ddd; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
-                                Click
-                            </div>
-                            <div
-                                style="border: 1px solid #ddd; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
-                                Uzum
-                            </div>
+                        <div class="payment-grid">
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="payme" checked>
+                                <div class="option-content">
+                                    <div class="payment-icon">P</div>
+                                    <span class="payment-name">Payme</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="click">
+                                <div class="option-content">
+                                    <div class="payment-icon">C</div>
+                                    <span class="payment-name">Click</span>
+                                </div>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment_method" value="uzum">
+                                <div class="option-content">
+                                    <div class="payment-icon">U</div>
+                                    <span class="payment-name">Uzum</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -456,18 +650,64 @@
                         персональных данных
                     </label>
                 </div>
-                <button class="btn btn-primary" onclick="submitWizard()" data-i18n="btn_continue">
-                    Продолжить &rarr;
-                </button>
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn" style="background: transparent; color: #888;" onclick="closeWizard()">Cancel / Close
-                    (Dev)</button>
+                <div class="wizard-actions" style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn btn-secondary-outline" id="btn_back" onclick="prevStep()" style="display: none;"
+                        data-i18n="btn_back">
+                        &larr; Назад
+                    </button>
+                    <button class="btn btn-primary" onclick="submitWizard()" data-i18n="btn_continue">
+                        Продолжить &rarr;
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Removed old modal -->
+
+
+
+    <!-- Custom Notification Modal -->
+    <div id="custom-alert" class="alert-overlay" style="display: none;">
+        <div class="alert-box">
+            <div class="alert-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <p id="alert-message">Сообщение об ошибке</p>
+            <button class="btn btn-primary" onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+    <!-- Decorative Feathers -->
+    <div class="feathers-container">
+        <div class="feather f1">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10C50 10 30 30 30 60C30 90 50 100 50 100C50 100 70 90 70 60C70 30 50 100 50 10"
+                    stroke="currentColor" stroke-width="0.5" opacity="0.3" />
+                <path d="M50 10L50 100" stroke="currentColor" stroke-width="0.2" opacity="0.5" />
+            </svg>
+        </div>
+        <div class="feather f2">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10C50 10 20 40 20 70C20 95 50 100 50 100" stroke="currentColor" stroke-width="0.5"
+                    opacity="0.2" />
+                <path d="M50 10C50 10 80 40 80 70C80 95 50 100 50 100" stroke="currentColor" stroke-width="0.5"
+                    opacity="0.2" />
+            </svg>
+        </div>
+        <div class="feather f3">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10C50 40 30 60 30 80C30 95 50 100 50 100" stroke="currentColor" stroke-width="0.3"
+                    opacity="0.4" />
+                <path d="M50 10C50 40 70 60 70 80C70 95 50 100 50 100" stroke="currentColor" stroke-width="0.3"
+                    opacity="0.4" />
+            </svg>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
