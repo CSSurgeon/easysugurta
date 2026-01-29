@@ -193,6 +193,40 @@ const translations = {
 
 let currentLang = localStorage.getItem('es_lang') || 'ru';
 
+// Language data for dropdown
+const langData = {
+    uz: {
+        name: "O'zbekcha",
+        flag: `<svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="13.33" y="0" fill="#1EB53A"/>
+            <rect width="60" height="13.33" y="13.33" fill="#FFFFFF"/>
+            <rect width="60" height="13.33" y="26.66" fill="#1EB53A"/>
+            <rect width="60" height="1" y="12.83" fill="#D52B1E"/>
+            <rect width="60" height="1" y="26.16" fill="#D52B1E"/>
+            <circle cx="10" cy="6.5" r="4" fill="#FFFFFF"/>
+            <circle cx="12" cy="6.5" r="3.5" fill="#1EB53A"/>
+        </svg>`
+    },
+    ru: {
+        name: "Русский",
+        flag: `<svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="13.33" y="0" fill="#FFFFFF"/>
+            <rect width="60" height="13.33" y="13.33" fill="#0039A6"/>
+            <rect width="60" height="13.33" y="26.66" fill="#D52B1E"/>
+        </svg>`
+    },
+    en: {
+        name: "English",
+        flag: `<svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="60" height="40" fill="#012169"/>
+            <path d="M0,0 L60,40 M60,0 L0,40" stroke="#FFFFFF" stroke-width="6"/>
+            <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4"/>
+            <path d="M30,0 V40 M0,20 H60" stroke="#FFFFFF" stroke-width="10"/>
+            <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6"/>
+        </svg>`
+    }
+};
+
 function setLanguage(lang) {
     if (!translations[lang]) return;
     currentLang = lang;
@@ -205,17 +239,88 @@ function setLanguage(lang) {
         }
     });
 
-    // Update active class
-    document.querySelectorAll('.lang').forEach(el => {
+    // Update dropdown display
+    updateLangDropdownDisplay(lang);
+
+    // Update dropdown options active state
+    document.querySelectorAll('.lang-option').forEach(el => {
         el.classList.remove('active');
-        if (el.textContent.toLowerCase() === lang) {
+        if (el.dataset.lang === lang) {
             el.classList.add('active');
         }
     });
 }
 
+function updateLangDropdownDisplay(lang) {
+    const flagEl = document.getElementById('current-lang-flag');
+    const nameEl = document.getElementById('current-lang-name');
+
+    if (flagEl && langData[lang]) {
+        flagEl.innerHTML = langData[lang].flag;
+    }
+    if (nameEl && langData[lang]) {
+        nameEl.textContent = langData[lang].name;
+    }
+}
+
+function toggleLangDropdown() {
+    const dropdown = document.getElementById('lang-dropdown');
+    const btn = dropdown.querySelector('.lang-dropdown-btn');
+
+    if (dropdown.classList.contains('open')) {
+        dropdown.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+    } else {
+        dropdown.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+    }
+}
+
+function closeLangDropdown() {
+    const dropdown = document.getElementById('lang-dropdown');
+    const btn = dropdown?.querySelector('.lang-dropdown-btn');
+    if (dropdown) {
+        dropdown.classList.remove('open');
+        btn?.setAttribute('aria-expanded', 'false');
+    }
+}
+
+function selectLanguage(lang) {
+    setLanguage(lang);
+    closeLangDropdown();
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('lang-dropdown');
+    if (dropdown && !dropdown.contains(e.target)) {
+        closeLangDropdown();
+    }
+});
+
+// Keyboard accessibility
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeLangDropdown();
+    }
+});
+
 // Initial set
 setLanguage(currentLang);
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+        if (menu.classList.contains('active')) {
+            menu.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            menu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+}
 
 // Wizard Logic
 let currentStep = 1;
@@ -239,6 +344,9 @@ function resetWizard() {
     renderDrivers();
     updateWizardUI();
     document.getElementById('agree_terms').checked = false;
+
+    // Clear search results when resetting wizard
+    clearSearchResults();
 }
 
 function updateWizardUI() {
@@ -313,6 +421,53 @@ function submitWizard() {
             showAlert(currentLang === 'uz' ? "Iltimos, barcha maydonlarni to'ldiring." : "Пожалуйста, заполните все поля.");
             return;
         }
+
+        // Check if search was performed (search results visible)
+        const searchResults = document.getElementById('vehicle_search_results');
+        if (!searchResults || searchResults.style.display === 'none') {
+            showAlert(currentLang === 'uz'
+                ? "Iltimos, avval transport vositasini qidiring"
+                : "Пожалуйста, сначала выполните поиск транспортного средства");
+            return;
+        }
+
+        // Validate owner passport fields (manual input required)
+        const passportSeries = document.getElementById('owner_passport_series').value.trim();
+        const passportNumber = document.getElementById('owner_passport_number').value.trim();
+        const birthDate = document.getElementById('owner_birth_date').value;
+
+        if (!passportSeries || passportSeries.length < 2) {
+            showAlert(currentLang === 'uz'
+                ? "Iltimos, pasport seriyasini kiriting"
+                : "Пожалуйста, введите серию паспорта владельца");
+            document.getElementById('owner_passport_series').focus();
+            return;
+        }
+
+        if (!passportNumber || passportNumber.length < 7) {
+            showAlert(currentLang === 'uz'
+                ? "Iltimos, pasport raqamini kiriting"
+                : "Пожалуйста, введите номер паспорта владельца");
+            document.getElementById('owner_passport_number').focus();
+            return;
+        }
+
+        if (!birthDate) {
+            showAlert(currentLang === 'uz'
+                ? "Iltimos, tug'ilgan sanani kiriting"
+                : "Пожалуйста, введите дату рождения владельца");
+            document.getElementById('owner_birth_date').focus();
+            return;
+        }
+
+        // Also update Step 2 fields to maintain compatibility
+        const ownerPassSeriesStep2 = document.getElementById('owner_pass_series');
+        const ownerPassNumberStep2 = document.getElementById('owner_pass_number');
+        const ownerDobStep2 = document.getElementById('owner_dob');
+
+        if (ownerPassSeriesStep2) ownerPassSeriesStep2.value = passportSeries.toUpperCase();
+        if (ownerPassNumberStep2) ownerPassNumberStep2.value = passportNumber;
+        if (ownerDobStep2) ownerDobStep2.value = birthDate;
     }
 
     if (currentStep === 2) {
@@ -408,23 +563,51 @@ function toggleDriversList() {
 function updateConfirmationSummary() {
     document.getElementById('sum_car_number').textContent = document.getElementById('car_number').value || '-';
     document.getElementById('sum_tech_passport').textContent = `${document.getElementById('tech_series').value} ${document.getElementById('tech_number').value}`.trim() || '-';
-    document.getElementById('sum_owner_pinfl').textContent = document.getElementById('owner_pinfl').value || '-';
-    document.getElementById('sum_owner_passport').textContent = `${document.getElementById('owner_pass_series').value} ${document.getElementById('owner_pass_number').value}`.trim() || '-';
+
+    // Use the owner PINFL from the search results (primary) or step 2 field (fallback)
+    const ownerPinfl = document.getElementById('owner_pinfl_display')?.value ||
+        document.getElementById('owner_pinfl')?.value || '-';
+    document.getElementById('sum_owner_pinfl').textContent = ownerPinfl;
+
+    // Use passport from step 1 (primary) or step 2 (fallback)
+    const passportSeries = document.getElementById('owner_passport_series')?.value ||
+        document.getElementById('owner_pass_series')?.value || '';
+    const passportNumber = document.getElementById('owner_passport_number')?.value ||
+        document.getElementById('owner_pass_number')?.value || '';
+    document.getElementById('sum_owner_passport').textContent = `${passportSeries} ${passportNumber}`.trim() || '-';
 
     const unlimited = document.getElementById('unlimited_drivers').checked;
     document.getElementById('sum_drivers_type').textContent = unlimited ? 'Без ограничений (VIP)' : `Ограниченно (${drivers.length})`;
 }
 
 function startQuickQuote() {
-    const carNumber = document.getElementById('hero_car_number').value;
+    const heroInput = document.getElementById('hero_car_number');
+    const carNumber = heroInput ? heroInput.value.trim() : '';
+
+    // Validate license plate format: 01 A 001 AA (11 chars with spaces)
     if (!carNumber) {
-        showAlert("Введите гос. номер автомобиля");
+        showAlert(currentLang === 'uz'
+            ? "Iltimos, avtomobil raqamini kiriting"
+            : "Пожалуйста, введите гос. номер автомобиля");
+        if (heroInput) heroInput.focus();
         return;
     }
 
-    // Smooth transition to Wizard
+    // Check format: should be like "01 A 001 AA" (11 characters with spaces)
+    if (!isValidLicensePlate(carNumber)) {
+        showAlert(currentLang === 'uz'
+            ? "Noto'g'ri format. Masalan: 01 A 001 AA"
+            : "Неверный формат. Пример: 01 A 001 AA");
+        if (heroInput) heroInput.focus();
+        return;
+    }
+
+    // Open wizard and populate the car number field
     openWizard();
-    document.getElementById('car_number').value = carNumber.toUpperCase();
+    const wizardInput = document.getElementById('car_number');
+    if (wizardInput) {
+        wizardInput.value = carNumber.toUpperCase();
+    }
 }
 
 // Custom Alert Logic
@@ -463,34 +646,264 @@ function closeAlert() {
     document.getElementById('custom-alert').style.display = 'none';
 }
 
-// License Plate Formatting
+// License Plate Formatting (shared by both hero and wizard inputs)
 function formatLicensePlate(input) {
     let val = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     let formatted = '';
 
     if (val.length > 0) {
-        formatted += val.substring(0, 2); // Region
+        formatted += val.substring(0, 2); // Region (01)
         if (val.length > 2) {
-            formatted += ' ' + val.substring(2, 3); // Letter
+            formatted += ' ' + val.substring(2, 3); // Letter (A)
             if (val.length > 3) {
-                formatted += ' ' + val.substring(3, 6); // Number
+                formatted += ' ' + val.substring(3, 6); // Number (001)
                 if (val.length > 6) {
-                    formatted += ' ' + val.substring(6, 8); // Series
+                    formatted += ' ' + val.substring(6, 8); // Series (AA)
                 }
             }
         }
     }
-    input.value = formatted.substring(0, 11);
+    input.value = formatted.substring(0, 11); // Max: "01 A 001 AA"
+}
+
+// Shared validation function for license plate format
+function isValidLicensePlate(value) {
+    const plateRegex = /^\d{2}\s[A-Z]\s\d{3}\s[A-Z]{2}$/;
+    return plateRegex.test(value.trim());
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const heroInput = document.getElementById('hero_car_number');
     const wizardInput = document.getElementById('car_number');
 
+    // Format license plate on input for both fields
     if (heroInput) {
         heroInput.addEventListener('input', (e) => formatLicensePlate(e.target));
+
+        // Allow Enter key to trigger the start button
+        heroInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                startQuickQuote();
+            }
+        });
+
+        // Ensure input is clickable and focusable
+        heroInput.addEventListener('click', (e) => {
+            e.target.focus();
+        });
     }
+
     if (wizardInput) {
         wizardInput.addEventListener('input', (e) => formatLicensePlate(e.target));
     }
 });
+
+// ========================================
+// Vehicle Search Functionality
+// ========================================
+
+/**
+ * Searches for vehicle and owner information based on car number and tech passport
+ * Reveals the hidden sections with auto-filled data on success
+ */
+function searchVehicle() {
+    const carNumber = document.getElementById('car_number').value.trim();
+    const techSeries = document.getElementById('tech_series').value.trim().toUpperCase();
+    const techNumber = document.getElementById('tech_number').value.trim();
+    const searchBtn = document.getElementById('btn_search_vehicle');
+
+    // Validation
+    if (!carNumber) {
+        showAlert(currentLang === 'uz'
+            ? "Iltimos, davlat raqamini kiriting"
+            : "Пожалуйста, введите гос. номер");
+        document.getElementById('car_number').focus();
+        return;
+    }
+
+    if (!isValidLicensePlate(carNumber)) {
+        showAlert(currentLang === 'uz'
+            ? "Noto'g'ri format. Masalan: 01 A 001 AA"
+            : "Неверный формат гос. номера. Пример: 01 A 001 AA");
+        document.getElementById('car_number').focus();
+        return;
+    }
+
+    if (!techSeries || techSeries.length < 2) {
+        showAlert(currentLang === 'uz'
+            ? "Iltimos, texnik pasport seriyasini kiriting"
+            : "Пожалуйста, введите серию техпаспорта");
+        document.getElementById('tech_series').focus();
+        return;
+    }
+
+    if (!techNumber || techNumber.length < 6) {
+        showAlert(currentLang === 'uz'
+            ? "Iltimos, texnik pasport raqamini kiriting"
+            : "Пожалуйста, введите номер техпаспорта");
+        document.getElementById('tech_number').focus();
+        return;
+    }
+
+    // Show loading state
+    searchBtn.classList.add('loading');
+    searchBtn.disabled = true;
+
+    // Simulate API call (replace with actual API integration)
+    setTimeout(() => {
+        // Simulated API response data
+        const vehicleData = simulateVehicleAPIResponse(carNumber, techSeries, techNumber);
+
+        if (vehicleData.success) {
+            // Populate vehicle registration data
+            document.getElementById('vehicle_gov_number').value = vehicleData.vehicle.govNumber;
+            document.getElementById('vehicle_tech_series').value = vehicleData.vehicle.techSeries;
+            document.getElementById('vehicle_tech_number').value = vehicleData.vehicle.techNumber;
+            document.getElementById('vehicle_model').value = vehicleData.vehicle.model;
+            document.getElementById('vehicle_type_display').value = vehicleData.vehicle.type;
+            document.getElementById('vehicle_region').value = vehicleData.vehicle.region;
+            document.getElementById('vehicle_year').value = vehicleData.vehicle.year;
+
+            // Populate owner data (read-only fields)
+            document.getElementById('owner_pinfl_display').value = vehicleData.owner.pinfl;
+            document.getElementById('owner_fullname').value = vehicleData.owner.fullName || '';
+
+            // Also populate hidden owner_pinfl field for step 2 compatibility
+            const ownerPinflStep2 = document.getElementById('owner_pinfl');
+            if (ownerPinflStep2) {
+                ownerPinflStep2.value = vehicleData.owner.pinfl;
+            }
+
+            // Show the results container with animation
+            const resultsContainer = document.getElementById('vehicle_search_results');
+            resultsContainer.style.display = 'block';
+
+            // Scroll to results smoothly
+            setTimeout(() => {
+                resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+
+            // Update button text to indicate search was successful
+            searchBtn.innerHTML = '<span>' + (currentLang === 'uz' ? 'QAYTA TOPISH' : 'НАЙТИ ПОВТОРНО') + '</span>';
+        } else {
+            showAlert(vehicleData.error || (currentLang === 'uz'
+                ? "Avtomobil topilmadi. Iltimos, ma'lumotlarni tekshiring"
+                : "Автомобиль не найден. Пожалуйста, проверьте введённые данные"));
+        }
+
+        // Remove loading state
+        searchBtn.classList.remove('loading');
+        searchBtn.disabled = false;
+    }, 1200); // Simulated network delay
+}
+
+/**
+ * Simulates API response for vehicle search
+ * In production, this would be replaced with actual API call
+ */
+function simulateVehicleAPIResponse(carNumber, techSeries, techNumber) {
+    // Extract region code from car number for simulation
+    const regionCode = carNumber.substring(0, 2);
+    const regionMap = {
+        '01': 'город Ташкент',
+        '10': 'Ташкентская область',
+        '20': 'Сырдарьинская область',
+        '25': 'Джизакская область',
+        '30': 'Самаркандская область',
+        '40': 'Ферганская область',
+        '50': 'Наманганская область',
+        '60': 'Андижанская область',
+        '70': 'Кашкадарьинская область',
+        '75': 'Сурхандарьинская область',
+        '80': 'Бухарская область',
+        '85': 'Навоийская область',
+        '90': 'Хорезмская область',
+        '95': 'Республика Каракалпакстан'
+    };
+
+    const vehicleTypeMap = {
+        'car': 'Легковые автомобили',
+        'truck': 'Грузовые автомобили',
+        'bus': 'Автобусы',
+        'motorcycle': 'Мотоциклы',
+        'trailer': 'Прицепы'
+    };
+
+    const selectedVehicleType = document.getElementById('vehicle_type').value || 'car';
+    const vehicleModels = ['SPARK', 'COBALT', 'NEXIA', 'LACETTI', 'MALIBU', 'CAPTIVA', 'TRACKER', 'DAMAS', 'LABO'];
+    const randomModel = vehicleModels[Math.floor(Math.random() * vehicleModels.length)];
+    const randomYear = 2018 + Math.floor(Math.random() * 7); // 2018-2024
+
+    // Simulate a random PINFL (14 digits)
+    const randomPinfl = Array(14).fill(0).map(() => Math.floor(Math.random() * 10)).join('');
+
+    // Generate a random owner name
+    const firstNames = ['Абдулла', 'Бахтиёр', 'Дильмурод', 'Жамшид', 'Камол', 'Мирзо', 'Нодир', 'Рустам', 'Санжар', 'Улугбек'];
+    const lastNames = ['Алиев', 'Каримов', 'Мирзаев', 'Нурматов', 'Рахимов', 'Саидов', 'Хакимов', 'Юсупов', 'Исмаилов', 'Турсунов'];
+    const patronymics = ['Абдуллаевич', 'Бахтиёрович', 'Камолович', 'Мирзоевич', 'Нодирович', 'Рустамович', 'Сарварович', 'Улугбекович'];
+
+    const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    const randomPatronymic = patronymics[Math.floor(Math.random() * patronymics.length)];
+
+    return {
+        success: true,
+        vehicle: {
+            govNumber: carNumber.toUpperCase(),
+            techSeries: techSeries.toUpperCase(),
+            techNumber: techNumber,
+            model: randomModel,
+            type: vehicleTypeMap[selectedVehicleType] || 'Легковые автомобили',
+            region: regionMap[regionCode] || 'город Ташкент',
+            year: randomYear.toString()
+        },
+        owner: {
+            pinfl: randomPinfl,
+            fullName: `${randomLastName} ${randomFirstName} ${randomPatronymic}`
+        }
+    };
+}
+
+/**
+ * Clears search results and hides the results container
+ */
+function clearSearchResults() {
+    const resultsContainer = document.getElementById('vehicle_search_results');
+    if (resultsContainer) {
+        resultsContainer.style.display = 'none';
+    }
+
+    // Clear all auto-filled fields
+    const fieldsToClear = [
+        'vehicle_gov_number', 'vehicle_tech_series', 'vehicle_tech_number',
+        'vehicle_model', 'vehicle_type_display', 'vehicle_region', 'vehicle_year',
+        'owner_pinfl_display', 'owner_fullname',
+        'owner_passport_series', 'owner_passport_number', 'owner_birth_date'
+    ];
+
+    fieldsToClear.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) field.value = '';
+    });
+
+    // Reset search button text
+    const searchBtn = document.getElementById('btn_search_vehicle');
+    if (searchBtn) {
+        searchBtn.innerHTML = '<span>' + (currentLang === 'uz' ? 'TOPISH' : 'НАЙТИ') + '</span>';
+    }
+}
+
+// Add translations for search button
+if (translations.ru) {
+    translations.ru.btn_search = "НАЙТИ";
+    translations.ru.btn_search_again = "НАЙТИ ПОВТОРНО";
+}
+if (translations.uz) {
+    translations.uz.btn_search = "TOPISH";
+    translations.uz.btn_search_again = "QAYTA TOPISH";
+}
+if (translations.en) {
+    translations.en.btn_search = "SEARCH";
+    translations.en.btn_search_again = "SEARCH AGAIN";
+}
