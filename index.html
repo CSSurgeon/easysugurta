@@ -80,6 +80,11 @@
                         </button>
                     </div>
                 </div>
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark Mode"
+                    title="Переключить тему">
+                    <span class="theme-icon" id="theme-icon">🌙</span>
+                </button>
             </nav>
             <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
                 <span></span>
@@ -133,61 +138,19 @@
                                 полиса
                                 онлайн.</p>
                             <div class="hero-quick-quote">
-                                <div class="plate-group">
-                                    <div class="plate-region-divider"></div>
+                                <div class="ref-input-wrapper">
                                     <input type="text" id="hero_car_number" placeholder="01 A 123 AA"
-                                        class="plate-input">
-                                    <div class="plate-branding">
-                                        <svg class="plate-flag-svg" viewBox="0 0 60 30"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Blue stripe -->
-                                            <rect width="60" height="10" y="0" fill="#1EB53A" />
-                                            <!-- White stripe -->
-                                            <rect width="60" height="10" y="10" fill="#FFFFFF" />
-                                            <!-- Green stripe -->
-                                            <rect width="60" height="10" y="20" fill="#1EB53A" />
-                                            <!-- Red borders -->
-                                            <rect width="60" height="0.6" y="9.7" fill="#D52B1E" />
-                                            <rect width="60" height="0.6" y="19.7" fill="#D52B1E" />
-                                            <!-- Crescent moon (white circle with blue overlay) -->
-                                            <circle cx="8" cy="5" r="3.5" fill="#FFFFFF" />
-                                            <circle cx="9.2" cy="5" r="3.2" fill="#1EB53A" />
-                                            <!-- 12 stars in 3 rows -->
-                                            <g fill="#FFFFFF">
-                                                <!-- Row 1: 4 stars -->
-                                                <polygon
-                                                    points="15,3 15.3,4 16.2,4 15.5,4.5 15.8,5.3 15,4.8 14.2,5.3 14.5,4.5 13.8,4 14.7,4" />
-                                                <polygon
-                                                    points="19,3 19.3,4 20.2,4 19.5,4.5 19.8,5.3 19,4.8 18.2,5.3 18.5,4.5 17.8,4 18.7,4" />
-                                                <polygon
-                                                    points="23,3 23.3,4 24.2,4 23.5,4.5 23.8,5.3 23,4.8 22.2,5.3 22.5,4.5 21.8,4 22.7,4" />
-                                                <polygon
-                                                    points="27,3 27.3,4 28.2,4 27.5,4.5 27.8,5.3 27,4.8 26.2,5.3 26.5,4.5 25.8,4 26.7,4" />
-                                                <!-- Row 2: 4 stars -->
-                                                <polygon
-                                                    points="15,6 15.3,7 16.2,7 15.5,7.5 15.8,8.3 15,7.8 14.2,8.3 14.5,7.5 13.8,7 14.7,7" />
-                                                <polygon
-                                                    points="19,6 19.3,7 20.2,7 19.5,7.5 19.8,8.3 19,7.8 18.2,8.3 18.5,7.5 17.8,7 18.7,7" />
-                                                <polygon
-                                                    points="23,6 23.3,7 24.2,7 23.5,7.5 23.8,8.3 23,7.8 22.2,8.3 22.5,7.5 21.8,7 22.7,7" />
-                                                <polygon
-                                                    points="27,6 27.3,7 28.2,7 27.5,7.5 27.8,8.3 27,7.8 26.2,8.3 26.5,7.5 25.8,7 26.7,7" />
-                                                <!-- Row 3: 4 stars -->
-                                                <polygon
-                                                    points="15,9 15.3,10 16.2,10 15.5,10.5 15.8,11.3 15,10.8 14.2,11.3 14.5,10.5 13.8,10 14.7,10" />
-                                                <polygon
-                                                    points="19,9 19.3,10 20.2,10 19.5,10.5 19.8,11.3 19,10.8 18.2,11.3 18.5,10.5 17.8,10 18.7,10" />
-                                                <polygon
-                                                    points="23,9 23.3,10 24.2,10 23.5,10.5 23.8,11.3 23,10.8 22.2,11.3 22.5,10.5 21.8,10 22.7,10" />
-                                                <polygon
-                                                    points="27,9 27.3,10 28.2,10 27.5,10.5 27.8,11.3 27,10.8 26.2,11.3 26.5,10.5 25.8,10 26.7,10" />
-                                            </g>
+                                        class="ref-plate-input">
+                                    <div class="ref-country-selector">
+                                        <svg class="ref-flag" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="60" height="13.33" y="0" fill="#FFFFFF" />
+                                            <rect width="60" height="13.33" y="13.33" fill="#0039A6" />
+                                            <rect width="60" height="13.33" y="26.66" fill="#D52B1E" />
                                         </svg>
-                                        <div class="plate-uz">UZ</div>
+                                        <span class="ref-country-code">RUS</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-hero-cta" style="padding: 12px 24px;"
-                                    onclick="startQuickQuote()">Начать</button>
+                                <button class="btn btn-ref-cta" onclick="startQuickQuote()">Рассчитать</button>
                             </div>
                             <div class="hero-trust">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -200,41 +163,10 @@
                             </div>
                         </div>
 
-                        <!-- Right: Visual Card -->
+                        <!-- Right: Hero Illustration -->
                         <div class="hero-visual">
-                            <div class="glass-card">
-                                <div class="glass-card-header">
-                                    <div class="car-icon">
-                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="1.5">
-                                            <path
-                                                d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2" />
-                                            <circle cx="6.5" cy="16.5" r="2.5" />
-                                            <circle cx="16.5" cy="16.5" r="2.5" />
-                                        </svg>
-                                    </div>
-                                    <div class="card-title">ОСАГО онлайн</div>
-                                </div>
-                                <div class="glass-card-steps">
-                                    <div class="step-item active">
-                                        <div class="step-number">1</div>
-                                        <div class="step-text">Данные авто</div>
-                                    </div>
-                                    <div class="step-item">
-                                        <div class="step-number">2</div>
-                                        <div class="step-text">Выбор компании</div>
-                                    </div>
-                                    <div class="step-item">
-                                        <div class="step-number">3</div>
-                                        <div class="step-text">Получение полиса</div>
-                                    </div>
-                                </div>
-                                <div class="glass-card-footer">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <img src="hero-illustration.png" alt="Man using smartphone for OSAGO insurance"
+                                class="hero-illustration">
                         </div>
                     </div>
 
@@ -488,375 +420,325 @@
         </footer>
     </div>
 
-    <!-- Wizard Interface (Hidden by default) -->
+
+
+    <!-- OSAGO Wizard Interface (Hidden by default) -->
     <div id="wizard-container" style="display: none;">
         <div class="container container-wide">
-            <div class="wizard-header">
-                <h2 class="wizard-title" data-i18n="wizard_title">ОФОРМИТЬ ОСАГО ОНЛАЙН</h2>
-            </div>
+            <!-- Two Column Layout -->
+            <div class="osago-two-column">
+                <!-- Left Column: Form Section -->
+                <div class="osago-form-column">
+                    <!-- Main Page Title -->
+                    <h1 class="osago-main-title">Оформление полиса</h1>
 
-            <!-- Wizard Step Content - Two Column Layout -->
-            <div class="wizard-two-column">
-                <!-- Left Column: Form Card -->
-                <div class="wizard-card">
-                    <!-- Step 1: Car Data -->
-                    <div id="step_1_content" class="wizard-step">
-                        <h3 class="step-title" data-i18n="step_1_title">Данные авто</h3>
 
-                        <!-- Vehicle Type -->
-                        <div class="form-group">
-                            <label>Тип транспорта</label>
-                            <div class="select-group">
-                                <select id="vehicle_type" class="select-chamfered">
-                                    <option value="car" selected>Легковые автомобили</option>
-                                    <option value="truck">Грузовые автомобили</option>
-                                    <option value="bus">Автобусы</option>
-                                    <option value="motorcycle">Мотоциклы</option>
-                                    <option value="trailer">Прицепы</option>
-                                </select>
-                                <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
+
+                    <!-- Step Content Area -->
+                    <div class="osago-step-content">
+                        <!-- Step 1: Vehicle Registration Certificate Data -->
+                        <div id="osago_step_1" class="osago-step active">
+                            <!-- Left-Aligned Subsection Header: Icon + Title + Subtitle grouped together -->
+                            <div class="section-header-compact">
+                                <div class="section-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2" />
+                                        <circle cx="6.5" cy="16.5" r="2.5" />
+                                        <circle cx="16.5" cy="16.5" r="2.5" />
+                                    </svg>
+                                </div>
+                                <div class="section-text">
+                                    <h2 class="section-title">Данные авто</h2>
+                                    <p class="section-subtitle">Заполните данные</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- License Plate & Tech Passport Row -->
-                        <div class="form-row">
-                            <div class="form-group col-half">
-                                <label data-i18n="label_car_number">Гос. номер</label>
-                                <div class="plate-group">
-                                    <div class="plate-region-divider"></div>
-                                    <input type="text" id="car_number" placeholder="01 A 123 AA" class="plate-input">
-                                    <div class="plate-branding">
-                                        <svg class="plate-flag-svg" viewBox="0 0 60 30"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="60" height="10" y="0" fill="#1EB53A" />
-                                            <rect width="60" height="10" y="10" fill="#FFFFFF" />
-                                            <rect width="60" height="10" y="20" fill="#1EB53A" />
-                                            <rect width="60" height="0.6" y="9.7" fill="#D52B1E" />
-                                            <rect width="60" height="0.6" y="19.7" fill="#D52B1E" />
-                                            <circle cx="8" cy="5" r="3.5" fill="#FFFFFF" />
-                                            <circle cx="9.2" cy="5" r="3.2" fill="#1EB53A" />
-                                        </svg>
-                                        <div class="plate-uz">UZ</div>
+                            <!-- Informational Helper Block -->
+                            <div class="info-helper-block">
+                                <p class="info-main-text">
+                                    Введите данные автомобиля, чтобы мы рассчитали предварительную стоимость ОСАГО для
+                                    вашего региона.
+                                </p>
+                                <p class="info-secondary-text">
+                                    Данные используются только для расчёта и не передаются третьим лицам.
+                                </p>
+                            </div>
+
+                            <!-- Registration Certificate Row: Gov Number + Tech Passport (Series + Number) + Load Button -->
+                            <div class="reg-cert-row">
+                                <div class="reg-cert-field gov-number">
+                                    <label>Гос. номер*</label>
+                                    <input type="text" id="osago_gov_number" class="input-field" placeholder="01A123AA">
+                                </div>
+                                <div class="reg-cert-field tech-passport">
+                                    <label>Данные тех. паспорта*</label>
+                                    <div class="tech-passport-inputs">
+                                        <input type="text" id="osago_tech_series" class="input-series" placeholder="AAA"
+                                            maxlength="3">
+                                        <input type="text" id="osago_tech_number" class="input-number"
+                                            placeholder="1234567" maxlength="7">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-half">
-                                <label data-i18n="label_tech_passport">Тех. паспорт</label>
-                                <div class="doc-group">
-                                    <input type="text" id="tech_series" placeholder="AAF" class="doc-series"
-                                        maxlength="3">
-                                    <div class="doc-divider"></div>
-                                    <input type="text" id="tech_number" placeholder="0000000" class="doc-number"
-                                        maxlength="7">
+                                <div class="reg-cert-field load-btn">
+                                    <label>&nbsp;</label>
+                                    <button type="button" class="btn-load" id="btn_osago_load"
+                                        onclick="loadVehicleData()">Загрузить</button>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Search Button -->
-                        <div class="search-action-row">
-                            <button type="button" class="btn btn-search-outline" id="btn_search_vehicle"
-                                onclick="searchVehicle()">
-                                <span data-i18n="btn_search">НАЙТИ</span>
-                            </button>
-                        </div>
-
-                        <!-- Hidden sections that appear after successful vehicle search -->
-                        <div id="vehicle_search_results" class="search-results-container" style="display: none;">
-
-                            <!-- Section: Vehicle Registration Data (Техпаспорт) -->
-                            <div class="info-section-card">
-                                <h4 class="info-section-title">Данные свидетельства о регистрации (техпаспорта)
-                                    транспортного средства</h4>
-
-                                <div class="form-row">
-                                    <div class="form-group col-half">
-                                        <label>Государственный номер</label>
-                                        <input type="text" id="vehicle_gov_number" class="input-readonly" readonly
+                            <!-- Vehicle Info (appears after load) -->
+                            <div id="vehicle_info_section" class="vehicle-info-section" style="display: none;">
+                                <div class="vehicle-info-row">
+                                    <div class="vehicle-info-field">
+                                        <label>Модель ТС</label>
+                                        <input type="text" id="osago_vehicle_model" class="input-field readonly"
+                                            readonly disabled>
+                                    </div>
+                                    <div class="vehicle-info-field">
+                                        <label>Тип ТС</label>
+                                        <input type="text" id="osago_vehicle_type_display" class="input-field readonly"
+                                            readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="vehicle-info-row">
+                                    <div class="vehicle-info-field">
+                                        <label>Регион регистрации</label>
+                                        <input type="text" id="osago_vehicle_region" class="input-field readonly"
+                                            readonly disabled>
+                                    </div>
+                                    <div class="vehicle-info-field">
+                                        <label>Год выпуска</label>
+                                        <input type="text" id="osago_vehicle_year" class="input-field readonly" readonly
                                             disabled>
                                     </div>
-                                    <div class="form-group col-half">
-                                        <label>Серия и номер техпаспорта</label>
-                                        <div class="readonly-doc-group">
-                                            <input type="text" id="vehicle_tech_series" class="input-readonly-sm"
-                                                readonly disabled>
-                                            <input type="text" id="vehicle_tech_number" class="input-readonly-md"
-                                                readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Data Section -->
+                        <h2 class="osago-section-title" style="margin-top: 32px;">Персональные данные</h2>
+
+                        <!-- Calculation Parameters Card (Collapsible) -->
+                        <div class="osago-params-card">
+                            <div class="params-header">
+                                <span class="params-title">Параметры расчёта</span>
+                                <button class="params-toggle" id="params_toggle_btn" aria-expanded="true"
+                                    aria-controls="params-content">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="params-content" id="params-content">
+                                <!-- Row 1: Vehicle Type & Region -->
+                                <div class="params-row">
+                                    <div class="params-field">
+                                        <label>Вид транспортного средства*</label>
+                                        <div class="select-wrapper">
+                                            <select id="calc_vehicle_type">
+                                                <option value="car" selected>Легковые автомобили</option>
+                                                <option value="truck">Грузовые автомобили</option>
+                                                <option value="bus">Автобусы</option>
+                                                <option value="motorcycle">Мотоциклы</option>
+                                                <option value="trailer">Прицепы</option>
+                                            </select>
+                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="params-field">
+                                        <label>Регион регистрации ТС*</label>
+                                        <div class="select-wrapper">
+                                            <select id="calc_region">
+                                                <option value="tashkent" selected>г.Ташкент и Ташкентская область
+                                                </option>
+                                                <option value="other">Другие регионы</option>
+                                            </select>
+                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-half">
-                                        <label>Модель транспортного средства</label>
-                                        <input type="text" id="vehicle_model" class="input-readonly" readonly disabled>
+                                <!-- Row 2: Driver Count & Insurance Period -->
+                                <div class="params-row">
+                                    <div class="params-field">
+                                        <label>Количество водителей*</label>
+                                        <div class="select-wrapper">
+                                            <select id="calc_driver_count">
+                                                <option value="unlimited" selected>Не ограничено</option>
+                                                <option value="limited">Ограничено до 5 человек</option>
+                                            </select>
+                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </div>
                                     </div>
-                                    <div class="form-group col-half">
-                                        <label>Вид транспортного средства</label>
-                                        <input type="text" id="vehicle_type_display" class="input-readonly" readonly
+                                    <div class="params-field">
+                                        <label>Период страхования*</label>
+                                        <div class="select-wrapper">
+                                            <select id="calc_period">
+                                                <option value="6months">6 месяцев</option>
+                                                <option value="1year" selected>1 год</option>
+                                            </select>
+                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
+                                                fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Row 3: Start Date & End Date -->
+                                <div class="params-row">
+                                    <div class="params-field">
+                                        <label>Начало страхования*</label>
+                                        <input type="date" id="calc_start_date" class="input-field">
+                                    </div>
+                                    <div class="params-field">
+                                        <label>Дата окончания</label>
+                                        <input type="text" id="calc_end_date" class="input-field readonly" readonly
                                             disabled>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-half">
-                                        <label>Регион регистрации</label>
-                                        <input type="text" id="vehicle_region" class="input-readonly" readonly disabled>
-                                    </div>
-                                    <div class="form-group col-half">
-                                        <label>Год выпуска</label>
-                                        <input type="text" id="vehicle_year" class="input-readonly" readonly disabled>
-                                    </div>
+                        <!-- Step 2: Owner -->
+                        <div id="osago_step_2" class="osago-step" style="display: none;">
+                            <h3 class="osago-section-title">Информация о владельце</h3>
+
+                            <!-- Read-only owner data (from API) -->
+                            <div class="owner-fields-row">
+                                <div class="owner-field">
+                                    <label>ПИНФЛ</label>
+                                    <input type="text" id="osago_owner_pinfl" class="input-field readonly" readonly
+                                        disabled>
+                                </div>
+                                <div class="owner-field">
+                                    <label>ФИО владельца</label>
+                                    <input type="text" id="osago_owner_name" class="input-field readonly" readonly
+                                        disabled>
                                 </div>
                             </div>
 
-                            <!-- Section: Owner Information -->
-                            <div class="info-section-card">
-                                <h4 class="info-section-title">Информация о владельце</h4>
-
-                                <div class="form-row">
-                                    <div class="form-group col-half">
-                                        <label>ПИНФЛ</label>
-                                        <input type="text" id="owner_pinfl_display" class="input-readonly" readonly
-                                            disabled>
-                                    </div>
-                                    <div class="form-group col-half">
-                                        <label>ФИО владельца</label>
-                                        <input type="text" id="owner_fullname" class="input-readonly" readonly disabled>
-                                    </div>
+                            <!-- Editable owner passport data -->
+                            <div class="owner-fields-row">
+                                <div class="owner-field small">
+                                    <label>Серия паспорта*</label>
+                                    <input type="text" id="osago_owner_passport_series" class="input-field"
+                                        placeholder="AA" maxlength="2">
                                 </div>
-
-                                <div class="form-row">
-                                    <div class="form-group col-third">
-                                        <label>Серия паспорта <span class="required-mark">*</span></label>
-                                        <input type="text" id="owner_passport_series" placeholder="AA"
-                                            class="input-editable-sm" maxlength="2">
-                                    </div>
-                                    <div class="form-group col-third">
-                                        <label>Номер паспорта <span class="required-mark">*</span></label>
-                                        <input type="text" id="owner_passport_number" placeholder="1234567"
-                                            class="input-editable-md" maxlength="7">
-                                    </div>
-                                    <div class="form-group col-third">
-                                        <label>Дата рождения <span class="required-mark">*</span></label>
-                                        <input type="date" id="owner_birth_date" class="input-editable">
-                                    </div>
+                                <div class="owner-field">
+                                    <label>Номер паспорта*</label>
+                                    <input type="text" id="osago_owner_passport_number" class="input-field"
+                                        placeholder="1234567" maxlength="7">
                                 </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Owner -->
-                    <div id="step_2_content" class="wizard-step" style="display: none;">
-                        <h3 class="step-title" data-i18n="step_2">Владелец</h3>
-                        <div class="form-row">
-                            <div class="form-group col-half">
-                                <label>ПИНФЛ</label>
-                                <input type="text" id="owner_pinfl" placeholder="12345678901234" class="input-lg">
-                            </div>
-                            <div class="form-group col-half">
-                                <label>Серия и номер паспорта</label>
-                                <div class="split-input">
-                                    <input type="text" id="owner_pass_series" placeholder="AA" class="input-sm">
-                                    <input type="text" id="owner_pass_number" placeholder="1234567" class="input-md">
+                                <div class="owner-field">
+                                    <label>Дата рождения*</label>
+                                    <input type="date" id="osago_owner_dob" class="input-field">
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-half">
-                                <label>Дата рождения</label>
-                                <input type="date" id="owner_dob" class="input-lg">
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Step 3: Applicant -->
-                    <div id="step_3_content" class="wizard-step" style="display: none;">
-                        <h3 class="step-title" data-i18n="step_3">Заявитель</h3>
-                        <div class="form-group">
-                            <div class="checkbox-wrapper" style="margin-bottom: 20px;">
-                                <input type="checkbox" id="applicant_is_owner" checked
-                                    onchange="toggleApplicantFields()">
-                                <label for="applicant_is_owner">Заявитель является владельцем</label>
+                        <!-- Step 3: Applicant -->
+                        <div id="osago_step_3" class="osago-step" style="display: none;">
+                            <h3 class="osago-section-title">Информация о заявителе</h3>
+                            <div class="applicant-checkbox">
+                                <input type="checkbox" id="osago_applicant_is_owner" checked
+                                    onchange="toggleOsagoApplicantFields()">
+                                <label for="osago_applicant_is_owner">Заявитель является владельцем</label>
                             </div>
-                        </div>
-                        <div id="applicant_fields" style="display: none;">
-                            <div class="form-row">
-                                <div class="form-group col-half">
-                                    <label>Телефон</label>
-                                    <input type="tel" id="applicant_phone" placeholder="+998 90 123 45 67"
-                                        class="input-lg">
+                            <div id="osago_applicant_fields" class="applicant-fields" style="display: none;">
+                                <div class="owner-fields-row">
+                                    <div class="owner-field">
+                                        <label>Телефон*</label>
+                                        <input type="tel" id="osago_applicant_phone" class="input-field"
+                                            placeholder="+998 90 123 45 67">
+                                    </div>
+                                    <div class="owner-field">
+                                        <label>Email</label>
+                                        <input type="email" id="osago_applicant_email" class="input-field"
+                                            placeholder="email@example.com">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 4: Period -->
-                    <div id="step_4_content" class="wizard-step" style="display: none;">
-                        <h3 class="step-title" data-i18n="step_4">Период</h3>
-                        <div class="form-row">
-                            <div class="form-group col-half">
-                                <label>Дата начала действия полиса</label>
-                                <input type="date" id="policy_start_date" class="input-lg">
-                            </div>
-                            <div class="form-group col-half">
-                                <label>Срок действия</label>
-                                <select id="policy_duration" class="input-lg" disabled>
-                                    <option value="1y" selected>1 год</option>
-                                </select>
-                            </div>
+                    <!-- Wizard Footer Actions (inside left column) -->
+                    <div class="osago-wizard-footer">
+                        <div class="footer-terms">
+                            <input type="checkbox" id="osago_agree_terms">
+                            <label for="osago_agree_terms">
+                                Нажимая продолжить Вы соглашаетесь с <a href="#">Офертой</a> и даете согласие на
+                                обработку своих персональных данных
+                            </label>
                         </div>
-                    </div>
-
-                    <!-- Step 5: Drivers -->
-                    <div id="step_5_content" class="wizard-step" style="display: none;">
-                        <h3 class="step-title" data-i18n="step_5">Водители</h3>
-                        <div class="form-group">
-                            <div class="checkbox-wrapper" style="margin-bottom: 20px;">
-                                <input type="checkbox" id="unlimited_drivers" onchange="toggleDriversList()">
-                                <label for="unlimited_drivers">Без ограничения водителей (VIP)</label>
-                            </div>
-                        </div>
-                        <div id="drivers_container">
-                            <div id="drivers_list">
-                                <!-- Drivers will be added here -->
-                            </div>
-                            <button class="btn btn-secondary-outline" onclick="addDriver()" id="add_driver_btn">
-                                + Добавить водителя
+                        <div class="footer-actions">
+                            <button class="btn-back" id="osago_btn_back" onclick="prevOsagoStep()"
+                                style="display: none;">
+                                ← Назад
+                            </button>
+                            <button class="btn-continue" id="osago_btn_continue" onclick="nextOsagoStep()">
+                                Продолжить →
                             </button>
                         </div>
                     </div>
-
-                    <!-- Step 6: Confirmation -->
-                    <div id="step_6_content" class="wizard-step" style="display: none;">
-                        <h3 class="step-title" data-i18n="step_6">Подтверждение</h3>
-                        <div class="confirmation-summary">
-                            <div class="summary-section">
-                                <h4>Транспортное средство</h4>
-                                <div class="summary-item">
-                                    <span>Гос. номер:</span>
-                                    <span id="sum_car_number">-</span>
-                                </div>
-                                <div class="summary-item">
-                                    <span>Техпаспорт:</span>
-                                    <span id="sum_tech_passport">-</span>
-                                </div>
-                            </div>
-                            <div class="summary-section">
-                                <h4>Владелец</h4>
-                                <div class="summary-item">
-                                    <span>ПИНФЛ:</span>
-                                    <span id="sum_owner_pinfl">-</span>
-                                </div>
-                                <div class="summary-item">
-                                    <span>Паспорт:</span>
-                                    <span id="sum_owner_passport">-</span>
-                                </div>
-                            </div>
-                            <div class="summary-section">
-                                <h4>Условия</h4>
-                                <div class="summary-item">
-                                    <span>Период:</span>
-                                    <span>1 год</span>
-                                </div>
-                                <div class="summary-item">
-                                    <span>Водители:</span>
-                                    <span id="sum_drivers_type">-</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 7: Payment -->
-                    <div id="step_7_content" class="wizard-step" style="display: none;">
-                        <h3 class="step-title" data-i18n="step_7">Оплата</h3>
-                        <div class="payment-selection">
-                            <p class="payment-label">Сумма к оплате:</p>
-                            <h2 class="payment-amount">56,000 UZS</h2>
-
-                            <div class="payment-grid">
-                                <label class="payment-option">
-                                    <input type="radio" name="payment_method" value="payme" checked>
-                                    <div class="option-content">
-                                        <div class="payment-icon">P</div>
-                                        <span class="payment-name">Payme</span>
-                                    </div>
-                                </label>
-                                <label class="payment-option">
-                                    <input type="radio" name="payment_method" value="click">
-                                    <div class="option-content">
-                                        <div class="payment-icon">C</div>
-                                        <span class="payment-name">Click</span>
-                                    </div>
-                                </label>
-                                <label class="payment-option">
-                                    <input type="radio" name="payment_method" value="uzum">
-                                    <div class="option-content">
-                                        <div class="payment-icon">U</div>
-                                        <span class="payment-name">Uzum</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Right Column: Calculation Summary Card -->
-                <div class="calculation-card">
-                    <h3 class="calculation-title">Расчёт</h3>
+                <!-- Right Column: Calculation Results -->
+                <div class="osago-results-column">
+                    <h2 class="osago-section-title">Результаты расчета</h2>
 
-                    <div class="calculation-section">
-                        <span class="calculation-label">Сумма покрытия</span>
-                        <span class="calculation-value">80 000 000,00 сум</span>
-                    </div>
-
-                    <div class="calculation-breakdown">
-                        <div class="breakdown-item">
-                            <div class="breakdown-bar life"></div>
-                            <div class="breakdown-info">
-                                <span class="breakdown-amount">52 000 000 сум</span>
-                                <span class="breakdown-label">жизнь и здоровье (65%)</span>
-                            </div>
+                    <!-- Dynamic Progress Indicator -->
+                    <div class="results-progress-indicator">
+                        <div class="progress-header">
+                            <span class="progress-label">Заполнено анкеты</span>
+                            <span class="progress-percentage" id="results_progress_text">0%</span>
                         </div>
-                        <div class="breakdown-item">
-                            <div class="breakdown-bar property"></div>
-                            <div class="breakdown-info">
-                                <span class="breakdown-amount">28 000 000 сум</span>
-                                <span class="breakdown-label">имущество (35%)</span>
-                            </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="results_progress_fill" style="width: 0%;"></div>
                         </div>
                     </div>
 
-                    <div class="calculation-divider"></div>
+                    <div class="osago-results-card">
+                        <!-- Promo Code -->
+                        <div class="promo-field">
+                            <input type="text" id="osago_promo_code" class="input-field" placeholder="Промокод">
+                        </div>
 
-                    <div class="calculation-section">
-                        <span class="calculation-label">Сумма оплаты</span>
-                        <span class="calculation-value payment">192 000,00 сум</span>
+                        <!-- Coverage Breakdown -->
+                        <div class="coverage-item">
+                            <span class="coverage-percent">65%</span>
+                            <span class="coverage-label">Ущерб жизни и здоровью</span>
+                        </div>
+
+                        <div class="coverage-item">
+                            <span class="coverage-percent">35%</span>
+                            <span class="coverage-label">Ущерб имуществу</span>
+                        </div>
+
+                        <!-- Insurance Sum -->
+                        <div class="insurance-sum">
+                            <span class="sum-amount">80.000.000 сум</span>
+                            <span class="sum-label">Страховая сумма</span>
+                        </div>
+
+                        <!-- Policy Cost (highlighted) -->
+                        <div class="policy-cost">
+                            <span class="cost-amount">384.000 сум <span class="cost-usd">(31,48 $)</span></span>
+                            <span class="cost-label">Стоимость полиса</span>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Wizard Footer Action -->
-            <div class="wizard-footer">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="agree_terms">
-                    <label for="agree_terms" data-i18n="terms_agree">
-                        Нажимая продолжить Вы соглашаетесь с <a href="#">Офертой</a> и даете согласие на обработку
-                        своих
-                        персональных данных
-                    </label>
-                </div>
-                <div class="wizard-actions" style="display: flex; gap: 10px; align-items: center;">
-                    <button class="btn btn-secondary-outline" id="btn_back" onclick="prevStep()" style="display: none;"
-                        data-i18n="btn_back">
-                        &larr; Назад
-                    </button>
-                    <button class="btn btn-primary" onclick="submitWizard()" data-i18n="btn_continue">
-                        Продолжить &rarr;
-                    </button>
                 </div>
             </div>
         </div>
