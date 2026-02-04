@@ -1,3 +1,80 @@
+// ============================================
+// DARK / LIGHT THEME TOGGLE
+// ============================================
+
+/**
+ * Theme Management System
+ * - Manual toggle: User clicks the theme button
+ * - Automatic: Based on time (19:00-07:00 = dark, 07:00-19:00 = light)
+ * - Priority: User preference (localStorage) > Automatic
+ */
+
+// Check if user has saved theme preference
+function getSavedTheme() {
+    return localStorage.getItem('es_theme');
+}
+
+// Save theme preference
+function saveTheme(theme) {
+    localStorage.setItem('es_theme', theme);
+}
+
+// Get current hour (0-23)
+function getCurrentHour() {
+    return new Date().getHours();
+}
+
+// Determine automatic theme based on time
+// Dark theme: 19:00 (7 PM) to 07:00 (7 AM)
+// Light theme: 07:00 (7 AM) to 19:00 (7 PM)
+function getAutoTheme() {
+    const hour = getCurrentHour();
+    return (hour >= 19 || hour < 7) ? 'dark' : 'light';
+}
+
+// Apply theme to the page
+function applyTheme(theme) {
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+
+    if (theme === 'dark') {
+        body.classList.add('dark');
+        if (themeIcon) themeIcon.textContent = '☀️';
+    } else {
+        body.classList.remove('dark');
+        if (themeIcon) themeIcon.textContent = '🌙';
+    }
+}
+
+// Toggle theme manually (user clicks button)
+function toggleTheme() {
+    const body = document.body;
+    const currentTheme = body.classList.contains('dark') ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    // Apply and save the choice
+    applyTheme(newTheme);
+    saveTheme(newTheme);
+}
+
+// Initialize theme on page load
+function initTheme() {
+    const savedTheme = getSavedTheme();
+
+    if (savedTheme) {
+        // User has a saved preference - use it
+        applyTheme(savedTheme);
+    } else {
+        // No saved preference - use automatic based on time
+        const autoTheme = getAutoTheme();
+        applyTheme(autoTheme);
+        // DON'T save automatic theme - only save manual choices
+    }
+}
+
+// Run theme initialization immediately
+initTheme();
+
 // Telegram Web App Initialization
 const tg = window.Telegram?.WebApp;
 
@@ -9,6 +86,190 @@ if (tg) {
         prevStep();
     });
 }
+
+// ============================================
+// REGION CODE MAPPING - Uzbekistan License Plates
+// ============================================
+
+/**
+ * Official Uzbekistan region code mapping
+ * Based on territorial codes (first 2 digits of license plate)
+ * Category: 'tashkent' for Tashkent city/region, 'other' for all other regions
+ */
+const REGION_CODE_MAP = {
+    // 01 → Tashkent city
+    '01': { name: 'город Ташкент', category: 'tashkent' },
+
+    // 10–19 → Tashkent region
+    '10': { name: 'Ташкентская область', category: 'tashkent' },
+    '11': { name: 'Ташкентская область', category: 'tashkent' },
+    '12': { name: 'Ташкентская область', category: 'tashkent' },
+    '13': { name: 'Ташкентская область', category: 'tashkent' },
+    '14': { name: 'Ташкентская область', category: 'tashkent' },
+    '15': { name: 'Ташкентская область', category: 'tashkent' },
+    '16': { name: 'Ташкентская область', category: 'tashkent' },
+    '17': { name: 'Ташкентская область', category: 'tashkent' },
+    '18': { name: 'Ташкентская область', category: 'tashkent' },
+    '19': { name: 'Ташкентская область', category: 'tashkent' },
+
+    // 20–24 → Syrdarya region
+    '20': { name: 'Сырдарьинская область', category: 'other' },
+    '21': { name: 'Сырдарьинская область', category: 'other' },
+    '22': { name: 'Сырдарьинская область', category: 'other' },
+    '23': { name: 'Сырдарьинская область', category: 'other' },
+    '24': { name: 'Сырдарьинская область', category: 'other' },
+
+    // 25–29 → Jizzakh region
+    '25': { name: 'Джизакская область', category: 'other' },
+    '26': { name: 'Джизакская область', category: 'other' },
+    '27': { name: 'Джизакская область', category: 'other' },
+    '28': { name: 'Джизакская область', category: 'other' },
+    '29': { name: 'Джизакская область', category: 'other' },
+
+    // 30–39 → Samarkand region
+    '30': { name: 'Самаркандская область', category: 'other' },
+    '31': { name: 'Самаркандская область', category: 'other' },
+    '32': { name: 'Самаркандская область', category: 'other' },
+    '33': { name: 'Самаркандская область', category: 'other' },
+    '34': { name: 'Самаркандская область', category: 'other' },
+    '35': { name: 'Самаркандская область', category: 'other' },
+    '36': { name: 'Самаркандская область', category: 'other' },
+    '37': { name: 'Самаркандская область', category: 'other' },
+    '38': { name: 'Самаркандская область', category: 'other' },
+    '39': { name: 'Самаркандская область', category: 'other' },
+
+    // 40–49 → Fergana region
+    '40': { name: 'Ферганская область', category: 'other' },
+    '41': { name: 'Ферганская область', category: 'other' },
+    '42': { name: 'Ферганская область', category: 'other' },
+    '43': { name: 'Ферганская область', category: 'other' },
+    '44': { name: 'Ферганская область', category: 'other' },
+    '45': { name: 'Ферганская область', category: 'other' },
+    '46': { name: 'Ферганская область', category: 'other' },
+    '47': { name: 'Ферганская область', category: 'other' },
+    '48': { name: 'Ферганская область', category: 'other' },
+    '49': { name: 'Ферганская область', category: 'other' },
+
+    // 50–59 → Namangan region
+    '50': { name: 'Наманганская область', category: 'other' },
+    '51': { name: 'Наманганская область', category: 'other' },
+    '52': { name: 'Наманганская область', category: 'other' },
+    '53': { name: 'Наманганская область', category: 'other' },
+    '54': { name: 'Наманганская область', category: 'other' },
+    '55': { name: 'Наманганская область', category: 'other' },
+    '56': { name: 'Наманганская область', category: 'other' },
+    '57': { name: 'Наманганская область', category: 'other' },
+    '58': { name: 'Наманганская область', category: 'other' },
+    '59': { name: 'Наманганская область', category: 'other' },
+
+    // 60–69 → Andijan region
+    '60': { name: 'Андижанская область', category: 'other' },
+    '61': { name: 'Андижанская область', category: 'other' },
+    '62': { name: 'Андижанская область', category: 'other' },
+    '63': { name: 'Андижанская область', category: 'other' },
+    '64': { name: 'Андижанская область', category: 'other' },
+    '65': { name: 'Андижанская область', category: 'other' },
+    '66': { name: 'Андижанская область', category: 'other' },
+    '67': { name: 'Андижанская область', category: 'other' },
+    '68': { name: 'Андижанская область', category: 'other' },
+    '69': { name: 'Андижанская область', category: 'other' },
+
+    // 70–74 → Kashkadarya region
+    '70': { name: 'Кашкадарьинская область', category: 'other' },
+    '71': { name: 'Кашкадарьинская область', category: 'other' },
+    '72': { name: 'Кашкадарьинская область', category: 'other' },
+    '73': { name: 'Кашкадарьинская область', category: 'other' },
+    '74': { name: 'Кашкадарьинская область', category: 'other' },
+
+    // 75–79 → Surkhandarya region
+    '75': { name: 'Сурхандарьинская область', category: 'other' },
+    '76': { name: 'Сурхандарьинская область', category: 'other' },
+    '77': { name: 'Сурхандарьинская область', category: 'other' },
+    '78': { name: 'Сурхандарьинская область', category: 'other' },
+    '79': { name: 'Сурхандарьинская область', category: 'other' },
+
+    // 80–84 → Bukhara region
+    '80': { name: 'Бухарская область', category: 'other' },
+    '81': { name: 'Бухарская область', category: 'other' },
+    '82': { name: 'Бухарская область', category: 'other' },
+    '83': { name: 'Бухарская область', category: 'other' },
+    '84': { name: 'Бухарская область', category: 'other' },
+
+    // 85–89 → Navoi region
+    '85': { name: 'Навоийская область', category: 'other' },
+    '86': { name: 'Навоийская область', category: 'other' },
+    '87': { name: 'Навоийская область', category: 'other' },
+    '88': { name: 'Навоийская область', category: 'other' },
+    '89': { name: 'Навоийская область', category: 'other' },
+
+    // 90–94 → Khorezm region
+    '90': { name: 'Хорезмская область', category: 'other' },
+    '91': { name: 'Хорезмская область', category: 'other' },
+    '92': { name: 'Хорезмская область', category: 'other' },
+    '93': { name: 'Хорезмская область', category: 'other' },
+    '94': { name: 'Хорезмская область', category: 'other' },
+
+    // 95–99 → Republic of Karakalpakstan
+    '95': { name: 'Республика Каракалпакстан', category: 'other' },
+    '96': { name: 'Республика Каракалпакстан', category: 'other' },
+    '97': { name: 'Республика Каракалпакстан', category: 'other' },
+    '98': { name: 'Республика Каракалпакстан', category: 'other' },
+    '99': { name: 'Республика Каракалпакстан', category: 'other' }
+};
+
+// Track if region was auto-detected (to lock the field)
+let regionAutoDetected = false;
+
+/**
+ * Detect region from license plate number
+ * @param {string} plateNumber - The vehicle license plate (e.g., "01A123AA" or "01 A 123 AA")
+ * @returns {Object|null} - { name, category } or null if not found
+ */
+function detectRegionFromPlate(plateNumber) {
+    if (!plateNumber || plateNumber.length < 2) return null;
+
+    // Extract first 2 characters (digits) - remove any spaces first
+    const cleanPlate = plateNumber.replace(/\s/g, '');
+    const regionCode = cleanPlate.substring(0, 2);
+
+    // Validate it's a valid 2-digit code
+    if (!/^\d{2}$/.test(regionCode)) return null;
+
+    return REGION_CODE_MAP[regionCode] || null;
+}
+
+/**
+ * Update region fields based on license plate input
+ * Called when user enters/changes the license plate
+ */
+function updateRegionFromPlate() {
+    const govNumberInput = document.getElementById('osago_gov_number');
+    const calcRegionSelect = document.getElementById('calc_region');
+
+    if (!govNumberInput || !calcRegionSelect) return;
+
+    const plateNumber = govNumberInput.value.trim();
+    const regionInfo = detectRegionFromPlate(plateNumber);
+
+    if (regionInfo) {
+        // Auto-detected: update dropdown and lock it
+        calcRegionSelect.value = regionInfo.category;
+        calcRegionSelect.disabled = true;
+        calcRegionSelect.classList.add('readonly', 'auto-detected');
+        regionAutoDetected = true;
+
+        // Store detected region name for display in vehicle info
+        window.detectedRegionName = regionInfo.name;
+    } else {
+        // No valid region code: unlock dropdown for manual selection
+        calcRegionSelect.disabled = false;
+        calcRegionSelect.classList.remove('readonly', 'auto-detected');
+        regionAutoDetected = false;
+        window.detectedRegionName = null;
+    }
+}
+
+
 
 // Translations
 const translations = {
@@ -66,7 +327,7 @@ const translations = {
         step_7: "Оплата",
         step_1_title: "Данные авто",
         label_car_number: "Номер машины",
-        label_tech_passport: "Серия и номер тех паспорта",
+        label_tech_passport: "Данные тех. паспорта*",
         terms_agree: "Нажимая продолжить Вы соглашаетесь с <a href='#'>Офертой</a> и даете согласие на обработку своих персональных данных",
         btn_back: "&larr; Назад",
         btn_continue: "Продолжить &rarr;"
@@ -125,7 +386,7 @@ const translations = {
         step_7: "To'lov",
         step_1_title: "Avto ma'lumotlari",
         label_car_number: "Mashina raqami",
-        label_tech_passport: "Texnik pasport seriyasi va raqami",
+        label_tech_passport: "Texnik pasport*",
         terms_agree: "Davom etish tugmasini bosish orqali siz <a href='#'>Oferta</a> ga rozilik bildirasiz va shaxsiy ma'lumotlaringizni qayta ishlashga ruxsat berasiz",
         btn_back: "&larr; Orqaga",
         btn_continue: "Davom etish &rarr;"
@@ -184,7 +445,7 @@ const translations = {
         step_7: "Payment",
         step_1_title: "Car Data",
         label_car_number: "Car Number",
-        label_tech_passport: "Tech Passport Series & Number",
+        label_tech_passport: "Tech Passport*",
         terms_agree: "By clicking continue, you agree to the <a href='#'>Offer</a> and consent to the processing of your personal data",
         btn_back: "&larr; Back",
         btn_continue: "Continue &rarr;"
@@ -325,17 +586,85 @@ function toggleMobileMenu() {
 // Wizard Logic
 let currentStep = 1;
 const totalSteps = 7;
+let wizardProgress = 0;
+
+// Progress indicator management
+function updateProgressIndicator(percentage) {
+    wizardProgress = percentage;
+    const progressBar = document.querySelector('.wizard-progress-bar');
+    const progressFill = document.querySelector('.wizard-progress-fill');
+    const progressText = document.querySelector('.wizard-progress-text');
+
+    if (progressBar) {
+        // Show progress bar if hidden
+        if (percentage > 0) {
+            progressBar.style.display = 'flex';
+        }
+    }
+
+    if (progressFill) {
+        progressFill.style.width = `${percentage}%`;
+    }
+
+    if (progressText) {
+        progressText.textContent = `${Math.round(percentage)}%`;
+    }
+}
+
+function hideProgressIndicator() {
+    const progressBar = document.querySelector('.wizard-progress-bar');
+    if (progressBar) {
+        progressBar.style.display = 'none';
+    }
+    wizardProgress = 0;
+}
+
+function calculateProgressBySection() {
+    // Progress increases by meaningful sections, not individual fields
+    // Each section represents a logical completion milestone
+
+    if (currentStep === 1) {
+        // Initial step - vehicle data entry
+        return 35; // Starting meaningful value
+    } else if (currentStep === 2) {
+        // Vehicle data loaded and confirmed
+        return 50;
+    } else if (currentStep === 3) {
+        // Owner data section complete
+        return 65;
+    } else if (currentStep === 4) {
+        // Applicant data confirmed
+        return 75;
+    } else if (currentStep === 5) {
+        // Period/insurance parameters set
+        return 85;
+    } else if (currentStep === 6) {
+        // Drivers information complete
+        return 92;
+    } else if (currentStep === 7) {
+        // Final confirmation - ready for payment
+        return 100;
+    }
+
+    return 35; // Default starting value
+}
 
 function openWizard() {
     document.getElementById('main-landing').style.display = 'none';
     document.getElementById('wizard-container').style.display = 'block';
     window.scrollTo(0, 0);
     resetWizard();
+
+    // Show progress starting at meaningful value (35%)
+    updateProgressIndicator(35);
 }
 
 function closeWizard() {
     document.getElementById('main-landing').style.display = 'block';
     document.getElementById('wizard-container').style.display = 'none';
+
+    // Hide progress indicator when returning to hero
+    hideProgressIndicator();
 }
 
 function resetWizard() {
@@ -347,10 +676,16 @@ function resetWizard() {
 
     // Clear search results when resetting wizard
     clearSearchResults();
+
+    // Reset progress to initial value
+    updateProgressIndicator(35);
 }
 
 function updateWizardUI() {
 
+    // Update progress bar based on current section
+    const sectionProgress = calculateProgressBySection();
+    updateProgressIndicator(sectionProgress);
 
     // 0. Update Telegram Back Button Visibility & Web Back Button
     const backBtn = document.getElementById('btn_back');
@@ -401,16 +736,16 @@ function updateWizardUI() {
 
     // 5. Special Logic for Step 5 (Drivers Initial Load)
     if (currentStep === 5 && drivers.length === 0) {
-        addDriver(true); // Add initial default driver (Owner)
+        addDriver(true);  // Add initial default driver (Owner)
     }
 }
 
 function submitWizard() {
     // Validation Logic per step
     if (currentStep === 1) {
-        const carNumber = document.getElementById('car_number').value;
-        const techSeries = document.getElementById('tech_series').value;
-        const techNumber = document.getElementById('tech_number').value;
+        const carNumber = document.getElementById('osago_gov_number').value;
+        const techSeries = document.getElementById('osago_tech_series').value;
+        const techNumber = document.getElementById('osago_tech_number').value;
         const agree = document.getElementById('agree_terms').checked;
 
         if (!agree) {
@@ -436,27 +771,29 @@ function submitWizard() {
         const passportNumber = document.getElementById('owner_passport_number').value.trim();
         const birthDate = document.getElementById('owner_birth_date').value;
 
+        // Clear previous error states
+        clearFieldError('owner_passport_series');
+        clearFieldError('owner_passport_number');
+        clearFieldError('owner_birth_date');
+
         if (!passportSeries || passportSeries.length < 2) {
-            showAlert(currentLang === 'uz'
-                ? "Iltimos, pasport seriyasini kiriting"
-                : "Пожалуйста, введите серию паспорта владельца");
-            document.getElementById('owner_passport_series').focus();
+            setFieldError('owner_passport_series', currentLang === 'uz'
+                ? "Majburiy maydon"
+                : "Обязательное поле");
             return;
         }
 
         if (!passportNumber || passportNumber.length < 7) {
-            showAlert(currentLang === 'uz'
-                ? "Iltimos, pasport raqamini kiriting"
-                : "Пожалуйста, введите номер паспорта владельца");
-            document.getElementById('owner_passport_number').focus();
+            setFieldError('owner_passport_number', currentLang === 'uz'
+                ? "Minimum 7 ta belgi"
+                : "Минимум 7 символов");
             return;
         }
 
         if (!birthDate) {
-            showAlert(currentLang === 'uz'
-                ? "Iltimos, tug'ilgan sanani kiriting"
-                : "Пожалуйста, введите дату рождения владельца");
-            document.getElementById('owner_birth_date').focus();
+            setFieldError('owner_birth_date', currentLang === 'uz'
+                ? "Majburiy maydon"
+                : "Обязательное поле");
             return;
         }
 
@@ -481,7 +818,7 @@ function submitWizard() {
     // If it's the last step, submit
     if (currentStep === totalSteps) {
         const data = {
-            car: document.getElementById('car_number').value,
+            car: document.getElementById('osago_gov_number').value,
             step: 'Final Payment'
         };
 
@@ -561,8 +898,13 @@ function toggleDriversList() {
 }
 
 function updateConfirmationSummary() {
-    document.getElementById('sum_car_number').textContent = document.getElementById('car_number').value || '-';
-    document.getElementById('sum_tech_passport').textContent = `${document.getElementById('tech_series').value} ${document.getElementById('tech_number').value}`.trim() || '-';
+    // Use the correct osago field IDs for single source of truth
+    const carNumber = document.getElementById('osago_gov_number')?.value || '-';
+    document.getElementById('sum_car_number').textContent = carNumber;
+
+    const techSeries = document.getElementById('osago_tech_series')?.value || '';
+    const techNumber = document.getElementById('osago_tech_number')?.value || '';
+    document.getElementById('sum_tech_passport').textContent = `${techSeries} ${techNumber}`.trim() || '-';
 
     // Use the owner PINFL from the search results (primary) or step 2 field (fallback)
     const ownerPinfl = document.getElementById('owner_pinfl_display')?.value ||
@@ -584,7 +926,7 @@ function startQuickQuote() {
     const heroInput = document.getElementById('hero_car_number');
     const carNumber = heroInput ? heroInput.value.trim() : '';
 
-    // Validate license plate format: 01 A 001 AA (11 chars with spaces)
+    // Validate license plate format: 01 A 123 AA (11 chars with spaces)
     if (!carNumber) {
         showAlert(currentLang === 'uz'
             ? "Iltimos, avtomobil raqamini kiriting"
@@ -593,20 +935,22 @@ function startQuickQuote() {
         return;
     }
 
-    // Check format: should be like "01 A 001 AA" (11 characters with spaces)
+    // Check format: should be like "01 A 123 AA" (11 characters with spaces)
     if (!isValidLicensePlate(carNumber)) {
         showAlert(currentLang === 'uz'
-            ? "Noto'g'ri format. Masalan: 01 A 001 AA"
-            : "Неверный формат. Пример: 01 A 001 AA");
+            ? "Noto'g'ri format. Masalan: 01 A 123 AA"
+            : "Неверный формат. Пример: 01 A 123 AA");
         if (heroInput) heroInput.focus();
         return;
     }
 
-    // Open wizard and populate the car number field
+    // Open wizard and populate the government number field (single source of truth)
     openWizard();
-    const wizardInput = document.getElementById('car_number');
+    const wizardInput = document.getElementById('osago_gov_number');
     if (wizardInput) {
         wizardInput.value = carNumber.toUpperCase();
+        // Also trigger region detection from the plate number
+        updateRegionFromPlate();
     }
 }
 
@@ -644,6 +988,74 @@ function showAlert(message, type = 'error') {
 
 function closeAlert() {
     document.getElementById('custom-alert').style.display = 'none';
+}
+
+// Alias for showCustomAlert (uses showAlert with additional warning type support)
+function showCustomAlert(message, type = 'error') {
+    showAlert(message, type === 'warning' ? 'error' : type);
+}
+
+// ========================================
+// Inline Field Validation Helpers
+// ========================================
+
+/**
+ * Sets error state on a field with inline message
+ * @param {string} fieldId - The ID of the input field
+ * @param {string} message - Error message to display
+ */
+function setFieldError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+
+    // Add error class to input
+    field.classList.add('input-error');
+    field.classList.remove('input-valid');
+
+    // Remove existing error message if any
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) existingError.remove();
+
+    // Create and append error message
+    const errorSpan = document.createElement('span');
+    errorSpan.className = 'field-error';
+    errorSpan.textContent = message;
+    field.parentNode.appendChild(errorSpan);
+
+    // Focus and scroll to field
+    field.focus();
+    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/**
+ * Clears error state from a field
+ * @param {string} fieldId - The ID of the input field
+ */
+function clearFieldError(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+
+    field.classList.remove('input-error');
+
+    // Remove error message if exists
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) existingError.remove();
+}
+
+/**
+ * Marks a field as valid (optional visual feedback)
+ * @param {string} fieldId - The ID of the input field
+ */
+function setFieldValid(fieldId) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+
+    field.classList.remove('input-error');
+    field.classList.add('input-valid');
+
+    // Remove any error message
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) existingError.remove();
 }
 
 // License Plate Formatting (shared by both hero and wizard inputs)
@@ -697,6 +1109,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wizardInput) {
         wizardInput.addEventListener('input', (e) => formatLicensePlate(e.target));
     }
+
+    // Tech passport series formatting - uppercase letters only (max 3)
+    const techSeriesInput = document.getElementById('tech_series');
+    if (techSeriesInput) {
+        techSeriesInput.addEventListener('input', (e) => {
+            // Remove non-letter characters and convert to uppercase
+            let val = e.target.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+            e.target.value = val.substring(0, 3);
+        });
+    }
+
+    // Tech passport number formatting - digits only (max 7)
+    const techNumberInput = document.getElementById('tech_number');
+    if (techNumberInput) {
+        techNumberInput.addEventListener('input', (e) => {
+            // Remove non-digit characters
+            let val = e.target.value.replace(/[^0-9]/g, '');
+            e.target.value = val.substring(0, 7);
+        });
+    }
+
+    // Clear validation errors when user starts typing in owner fields
+    const ownerFields = ['owner_passport_series', 'owner_passport_number', 'owner_birth_date'];
+    ownerFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.addEventListener('input', () => clearFieldError(fieldId));
+            field.addEventListener('change', () => clearFieldError(fieldId));
+        }
+    });
 });
 
 // ========================================
@@ -907,3 +1349,559 @@ if (translations.en) {
     translations.en.btn_search = "SEARCH";
     translations.en.btn_search_again = "SEARCH AGAIN";
 }
+
+// ============================================
+// NEW OSAGO WIZARD - JavaScript Functions
+// ============================================
+
+// Current OSAGO step (1 = Транспорт, 2 = Собственник, 3 = Заявитель)
+let currentOsagoStep = 1;
+const totalOsagoInnerSteps = 3;
+
+/**
+ * Initialize OSAGO Wizard on page load
+ */
+function initOsagoWizard() {
+    // Set default start date to today
+    const startDateInput = document.getElementById('calc_start_date');
+    if (startDateInput) {
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        startDateInput.value = formattedDate;
+        updateEndDate();
+    }
+
+    // Initialize parameters toggle
+    const paramsToggle = document.getElementById('params_toggle_btn');
+    if (paramsToggle) {
+        paramsToggle.addEventListener('click', toggleParamsContent);
+    }
+
+    // Initialize input formatting for new OSAGO fields
+    initOsagoInputFormatting();
+
+    // Update inner stepper state
+    updateInnerStepper();
+}
+
+/**
+ * Toggle the calculation parameters section
+ */
+function toggleParamsContent() {
+    const paramsContent = document.getElementById('params-content');
+    const toggleBtn = document.getElementById('params_toggle_btn');
+
+    if (paramsContent && toggleBtn) {
+        const isExpanded = !paramsContent.classList.contains('collapsed');
+
+        if (isExpanded) {
+            paramsContent.classList.add('collapsed');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            // Change icon to plus
+            toggleBtn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            `;
+        } else {
+            paramsContent.classList.remove('collapsed');
+            toggleBtn.setAttribute('aria-expanded', 'true');
+            // Change icon to minus
+            toggleBtn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            `;
+        }
+    }
+}
+
+/**
+ * Update end date based on start date and period
+ */
+function updateEndDate() {
+    const startDateInput = document.getElementById('calc_start_date');
+    const endDateInput = document.getElementById('calc_end_date');
+    const periodSelect = document.getElementById('calc_period');
+
+    if (startDateInput && endDateInput && startDateInput.value) {
+        const startDate = new Date(startDateInput.value);
+        let endDate = new Date(startDate);
+
+        // Calculate end date based on selected period
+        const period = periodSelect?.value || '1year';
+
+        if (period === '6months') {
+            // 6 months
+            endDate.setMonth(endDate.getMonth() + 6);
+            endDate.setDate(endDate.getDate() - 1);
+        } else {
+            // Default 1 year
+            endDate.setFullYear(endDate.getFullYear() + 1);
+            endDate.setDate(endDate.getDate() - 1);
+        }
+
+        // Format as dd/mm/yyyy for display
+        const day = String(endDate.getDate()).padStart(2, '0');
+        const month = String(endDate.getMonth() + 1).padStart(2, '0');
+        const year = endDate.getFullYear();
+
+        endDateInput.value = `${day}/${month}/${year}`;
+    }
+}
+
+/**
+ * Initialize input formatting for OSAGO fields
+ */
+function initOsagoInputFormatting() {
+    // Gov number formatting (uppercase, alphanumeric) + region auto-detection
+    const govNumber = document.getElementById('osago_gov_number');
+    if (govNumber) {
+        govNumber.addEventListener('input', function () {
+            this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 9);
+            // Auto-detect region from license plate
+            updateRegionFromPlate();
+        });
+    }
+
+    // Tech series formatting (uppercase letters only)
+    const techSeries = document.getElementById('osago_tech_series');
+    if (techSeries) {
+        techSeries.addEventListener('input', function () {
+            this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '').substring(0, 3);
+        });
+    }
+
+    // Tech number formatting (digits only)
+    const techNumber = document.getElementById('osago_tech_number');
+    if (techNumber) {
+        techNumber.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '').substring(0, 7);
+        });
+    }
+
+    // Passport series formatting (uppercase letters only)
+    const passportSeries = document.getElementById('osago_owner_passport_series');
+    if (passportSeries) {
+        passportSeries.addEventListener('input', function () {
+            this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '').substring(0, 2);
+        });
+    }
+
+    // Passport number formatting (digits only)
+    const passportNumber = document.getElementById('osago_owner_passport_number');
+    if (passportNumber) {
+        passportNumber.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '').substring(0, 7);
+        });
+    }
+
+    // Start date change listener
+    const startDate = document.getElementById('calc_start_date');
+    if (startDate) {
+        startDate.addEventListener('change', updateEndDate);
+    }
+}
+
+/**
+ * Load vehicle data by clicking "Загрузить" button
+ */
+function loadVehicleData() {
+    const govNumber = document.getElementById('osago_gov_number')?.value.trim();
+    const techSeries = document.getElementById('osago_tech_series')?.value.trim().toUpperCase();
+    const techNumber = document.getElementById('osago_tech_number')?.value.trim();
+
+    // Validation
+    if (!govNumber) {
+        showCustomAlert('Введите государственный номер автомобиля', 'warning');
+        return;
+    }
+    if (!techSeries || techSeries.length !== 3) {
+        showCustomAlert('Введите серию техпаспорта (3 буквы)', 'warning');
+        return;
+    }
+    if (!techNumber || techNumber.length < 6) {
+        showCustomAlert('Введите номер техпаспорта (минимум 6 цифр)', 'warning');
+        return;
+    }
+
+    // Show loading state
+    const loadBtn = document.getElementById('btn_osago_load');
+    if (loadBtn) {
+        loadBtn.classList.add('loading');
+        loadBtn.disabled = true;
+    }
+
+    // Simulate API call
+    setTimeout(() => {
+        // Remove loading state
+        if (loadBtn) {
+            loadBtn.classList.remove('loading');
+            loadBtn.disabled = false;
+        }
+
+        // Get auto-detected region from license plate
+        const regionInfo = detectRegionFromPlate(govNumber);
+        const regionName = regionInfo ? regionInfo.name : 'город Ташкент';
+
+        // Update calc_region dropdown based on detected region
+        const calcRegionSelect = document.getElementById('calc_region');
+        if (calcRegionSelect && regionInfo) {
+            calcRegionSelect.value = regionInfo.category;
+            calcRegionSelect.disabled = true;
+            calcRegionSelect.classList.add('readonly', 'auto-detected');
+            regionAutoDetected = true;
+        }
+
+        // Generate mock vehicle data
+        const vehicleTypeMap = {
+            'car': 'Легковые автомобили',
+            'truck': 'Грузовые автомобили',
+            'bus': 'Автобусы',
+            'motorcycle': 'Мотоциклы',
+            'trailer': 'Прицепы'
+        };
+        const selectedVehicleType = document.getElementById('calc_vehicle_type')?.value || 'car';
+        const vehicleModels = ['SPARK', 'COBALT', 'NEXIA', 'LACETTI', 'MALIBU', 'CAPTIVA', 'TRACKER', 'DAMAS', 'LABO'];
+        const randomModel = vehicleModels[Math.floor(Math.random() * vehicleModels.length)];
+        const randomYear = 2018 + Math.floor(Math.random() * 7);
+
+        // Generate mock owner data
+        const randomPinfl = Array(14).fill(0).map(() => Math.floor(Math.random() * 10)).join('');
+        const firstNames = ['Абдулла', 'Бахтиёр', 'Дильмурод', 'Жамшид', 'Камол', 'Мирзо', 'Нодир', 'Рустам', 'Санжар', 'Улугбек'];
+        const lastNames = ['Алиев', 'Каримов', 'Мирзаев', 'Нурматов', 'Рахимов', 'Саидов', 'Хакимов', 'Юсупов', 'Исмаилов', 'Турсунов'];
+        const patronymics = ['Абдуллаевич', 'Бахтиёрович', 'Камолович', 'Мирзоевич', 'Нодирович', 'Рустамович', 'Сарварович', 'Улугбекович'];
+        const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+        const randomPatronymic = patronymics[Math.floor(Math.random() * patronymics.length)];
+
+        // Populate vehicle info fields
+        document.getElementById('osago_vehicle_model').value = randomModel;
+        document.getElementById('osago_vehicle_type_display').value = vehicleTypeMap[selectedVehicleType] || 'Легковые автомобили';
+        document.getElementById('osago_vehicle_region').value = regionName;
+        document.getElementById('osago_vehicle_year').value = randomYear.toString();
+
+        // Store owner data for step 2
+        window.osago_owner_data = {
+            pinfl: randomPinfl,
+            fullName: `${randomLastName} ${randomFirstName} ${randomPatronymic}`
+        };
+
+        // Show vehicle info section
+        const vehicleInfoSection = document.getElementById('vehicle_info_section');
+        if (vehicleInfoSection) {
+            vehicleInfoSection.style.display = 'block';
+            vehicleInfoSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+
+        showCustomAlert('Данные транспортного средства успешно загружены!', 'success');
+
+        // Update progress indicator after vehicle data is loaded
+        updateResultsProgress();
+    }, 1200);
+}
+
+/**
+ * Navigate to next OSAGO inner step
+ */
+function nextOsagoStep() {
+    // Validate current step
+    if (!validateOsagoStep(currentOsagoStep)) {
+        return;
+    }
+
+    if (currentOsagoStep < totalOsagoInnerSteps) {
+        // Mark current step as completed
+        const currentStepEl = document.querySelector(`.inner-step[data-step="${currentOsagoStep}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.remove('active');
+            currentStepEl.classList.add('completed');
+        }
+
+        // Hide current step content
+        const currentContent = document.getElementById(`osago_step_${currentOsagoStep}`);
+        if (currentContent) {
+            currentContent.style.display = 'none';
+        }
+
+        currentOsagoStep++;
+
+        // Show next step content
+        const nextContent = document.getElementById(`osago_step_${currentOsagoStep}`);
+        if (nextContent) {
+            nextContent.style.display = 'block';
+
+            // If moving to owner step, populate owner data
+            if (currentOsagoStep === 2 && window.osago_owner_data) {
+                document.getElementById('osago_owner_pinfl').value = window.osago_owner_data.pinfl;
+                document.getElementById('osago_owner_name').value = window.osago_owner_data.fullName;
+            }
+        }
+
+        // Update inner stepper
+        updateInnerStepper();
+
+        // Show back button
+        const backBtn = document.getElementById('osago_btn_back');
+        if (backBtn) {
+            backBtn.style.display = 'inline-flex';
+        }
+    } else {
+        // Last inner step - proceed to next main stage
+        showCustomAlert('Все данные заполнены! Переход к заключению договора...', 'success');
+        // Here you would transition to the next main stage (Заключение договора)
+    }
+}
+
+/**
+ * Navigate to previous OSAGO inner step
+ */
+function prevOsagoStep() {
+    if (currentOsagoStep > 1) {
+        // Hide current step content
+        const currentContent = document.getElementById(`osago_step_${currentOsagoStep}`);
+        if (currentContent) {
+            currentContent.style.display = 'none';
+        }
+
+        // Mark current step as not active
+        const currentStepEl = document.querySelector(`.inner-step[data-step="${currentOsagoStep}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.remove('active', 'completed');
+        }
+
+        currentOsagoStep--;
+
+        // Show previous step content
+        const prevContent = document.getElementById(`osago_step_${currentOsagoStep}`);
+        if (prevContent) {
+            prevContent.style.display = 'block';
+        }
+
+        // Update inner stepper
+        updateInnerStepper();
+
+        // Hide back button if on first step
+        if (currentOsagoStep === 1) {
+            const backBtn = document.getElementById('osago_btn_back');
+            if (backBtn) {
+                backBtn.style.display = 'none';
+            }
+        }
+    }
+}
+
+/**
+ * Update inner stepper visual state
+ */
+function updateInnerStepper() {
+    for (let i = 1; i <= totalOsagoInnerSteps; i++) {
+        const stepEl = document.querySelector(`.inner-step[data-step="${i}"]`);
+        if (stepEl) {
+            stepEl.classList.remove('active', 'completed');
+
+            if (i < currentOsagoStep) {
+                stepEl.classList.add('completed');
+            } else if (i === currentOsagoStep) {
+                stepEl.classList.add('active');
+            }
+        }
+    }
+}
+
+/**
+ * Validate current OSAGO step
+ */
+function validateOsagoStep(step) {
+    switch (step) {
+        case 1:
+            // Validate transport data
+            const vehicleInfoSection = document.getElementById('vehicle_info_section');
+            if (!vehicleInfoSection || vehicleInfoSection.style.display === 'none') {
+                showCustomAlert('Сначала загрузите данные транспортного средства', 'warning');
+                return false;
+            }
+            return true;
+
+        case 2:
+            // Validate owner data
+            const passportSeries = document.getElementById('osago_owner_passport_series')?.value.trim();
+            const passportNumber = document.getElementById('osago_owner_passport_number')?.value.trim();
+            const dob = document.getElementById('osago_owner_dob')?.value;
+
+            if (!passportSeries || passportSeries.length !== 2) {
+                showCustomAlert('Введите серию паспорта (2 буквы)', 'warning');
+                return false;
+            }
+            if (!passportNumber || passportNumber.length !== 7) {
+                showCustomAlert('Введите номер паспорта (7 цифр)', 'warning');
+                return false;
+            }
+            if (!dob) {
+                showCustomAlert('Выберите дату рождения', 'warning');
+                return false;
+            }
+            return true;
+
+        case 3:
+            // Validate applicant data
+            const isOwner = document.getElementById('osago_applicant_is_owner')?.checked;
+            if (!isOwner) {
+                const phone = document.getElementById('osago_applicant_phone')?.value.trim();
+                if (!phone || phone.length < 9) {
+                    showCustomAlert('Введите номер телефона заявителя', 'warning');
+                    return false;
+                }
+            }
+            return true;
+
+        default:
+            return true;
+    }
+}
+
+/**
+ * Toggle applicant fields visibility
+ */
+function toggleOsagoApplicantFields() {
+    const isOwner = document.getElementById('osago_applicant_is_owner')?.checked;
+    const fieldsContainer = document.getElementById('osago_applicant_fields');
+
+    if (fieldsContainer) {
+        fieldsContainer.style.display = isOwner ? 'none' : 'block';
+    }
+}
+
+// Initialize OSAGO wizard when DOM is ready
+document.addEventListener('DOMContentLoaded', function () {
+    initOsagoWizard();
+});
+
+// ========================================
+// Dynamic Progress Indicator - Results Panel
+// ========================================
+
+let formProgress = 0;
+
+/**
+ * Calculate form completion progress based on filled required fields
+ * Progress rules:
+ * - License plate: +15%
+ * - Tech passport series: +15%
+ * - Tech passport number: +15%
+ * - Vehicle parameters: +20%
+ * - Personal data: +35%
+ * Total: 100%
+ */
+function calculateFormProgress() {
+    let progress = 0;
+
+    // 1. License plate entered → +15%
+    const licensePlate = document.getElementById('osago_gov_number')?.value.trim();
+    if (licensePlate && licensePlate.length >= 8) {
+        progress += 15;
+    }
+
+    // 2. Technical passport series entered → +15%
+    const techSeries = document.getElementById('osago_tech_series')?.value.trim();
+    if (techSeries && techSeries.length === 3) {
+        progress += 15;
+    }
+
+    // 3. Technical passport number entered → +15%
+    const techNumber = document.getElementById('osago_tech_number')?.value.trim();
+    if (techNumber && techNumber.length === 7) {
+        progress += 15;
+    }
+
+    // 4. Vehicle parameters completed → +20%
+    // Check if vehicle info section is visible (indicates successful data load)
+    const vehicleInfoSection = document.getElementById('vehicle_info_section');
+    const isVehicleDataLoaded = vehicleInfoSection && vehicleInfoSection.style.display !== 'none';
+    if (isVehicleDataLoaded) {
+        progress += 20;
+    }
+
+    // 5. Personal data completed → +35%
+    // Personal data = calculation parameters (vehicle type, region, driver count, period, start date)
+    const vehicleType = document.getElementById('calc_vehicle_type')?.value;
+    const region = document.getElementById('calc_region')?.value;
+    const driverCount = document.getElementById('calc_driver_count')?.value;
+    const period = document.getElementById('calc_period')?.value;
+    const startDate = document.getElementById('calc_start_date')?.value;
+
+    // All personal data fields must be filled
+    if (vehicleType && region && driverCount && period && startDate) {
+        progress += 35;
+    }
+
+    return Math.min(progress, 100); // Cap at 100%
+}
+
+/**
+ * Update the progress indicator in the results panel
+ */
+function updateResultsProgress() {
+    const newProgress = calculateFormProgress();
+
+    // Only update if progress has changed (avoid unnecessary DOM updates)
+    if (newProgress !== formProgress) {
+        formProgress = newProgress;
+
+        const progressFill = document.getElementById('results_progress_fill');
+        const progressText = document.getElementById('results_progress_text');
+
+        if (progressFill) {
+            progressFill.style.width = `${formProgress}%`;
+        }
+
+        if (progressText) {
+            progressText.textContent = `${formProgress}%`;
+        }
+    }
+}
+
+/**
+ * Attach progress tracking to all relevant form fields
+ */
+function initializeFormProgressTracking() {
+    // Get all input fields that affect progress
+    const trackedFields = [
+        'osago_gov_number',
+        'osago_tech_series',
+        'osago_tech_number',
+        'calc_vehicle_type',
+        'calc_region',
+        'calc_period',
+        'calc_driver_count'
+    ];
+
+    // Add event listeners for real-time updates
+    trackedFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            // Listen to both input and change events for comprehensive coverage
+            field.addEventListener('input', updateResultsProgress);
+            field.addEventListener('change', updateResultsProgress);
+        }
+    });
+
+    // Initial progress calculation on page load
+    updateResultsProgress();
+}
+
+// Initialize progress tracking when page loads
+document.addEventListener('DOMContentLoaded', function () {
+    initializeFormProgressTracking();
+});
+
+// Also initialize if DOMContentLoaded has already fired
+if (document.readyState === 'loading') {
+    // Already set up above
+} else {
+    // DOM is already ready
+    initializeFormProgressTracking();
+}
+
