@@ -143,11 +143,64 @@
                                         class="ref-plate-input">
                                     <div class="ref-country-selector">
                                         <svg class="ref-flag" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="60" height="13.33" y="0" fill="#FFFFFF" />
-                                            <rect width="60" height="13.33" y="13.33" fill="#0039A6" />
-                                            <rect width="60" height="13.33" y="26.66" fill="#D52B1E" />
+                                            <!-- Blue stripe (top) -->
+                                            <rect width="60" height="12.67" y="0" fill="#1EB2C7" />
+                                            <!-- Top red border -->
+                                            <rect width="60" height="0.67" y="12.67" fill="#CE1126" />
+                                            <!-- White stripe (middle) -->
+                                            <rect width="60" height="13.33" y="13.33" fill="#FFFFFF" />
+                                            <!-- Bottom red border -->
+                                            <rect width="60" height="0.67" y="26.67" fill="#CE1126" />
+                                            <!-- Green stripe (bottom) -->
+                                            <rect width="60" height="13.33" y="27.33" fill="#1EB53A" />
+                                            <!-- Crescent moon (white) -->
+                                            <circle cx="12" cy="6.33" r="4" fill="#FFFFFF" />
+                                            <!-- Inner circle to create crescent -->
+                                            <circle cx="13.5" cy="6.33" r="3.5" fill="#1EB2C7" />
+                                            <!-- Stars (12 stars in three rows: 3-4-5) -->
+                                            <g fill="#FFFFFF">
+                                                <!-- Row 1: 3 stars -->
+                                                <polygon
+                                                    points="22,3.5 22.5,5 24,5 22.8,5.8 23.2,7.3 22,6.5 20.8,7.3 21.2,5.8 20,5 21.5,5"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="27,3.5 27.5,5 29,5 27.8,5.8 28.2,7.3 27,6.5 25.8,7.3 26.2,5.8 25,5 26.5,5"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="32,3.5 32.5,5 34,5 32.8,5.8 33.2,7.3 32,6.5 30.8,7.3 31.2,5.8 30,5 31.5,5"
+                                                    transform="scale(0.8)" />
+                                                <!-- Row 2: 4 stars -->
+                                                <polygon
+                                                    points="24,6.5 24.5,8 26,8 24.8,8.8 25.2,10.3 24,9.5 22.8,10.3 23.2,8.8 22,8 23.5,8"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="29,6.5 29.5,8 31,8 29.8,8.8 30.2,10.3 29,9.5 27.8,10.3 28.2,8.8 27,8 28.5,8"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="34,6.5 34.5,8 36,8 34.8,8.8 35.2,10.3 34,9.5 32.8,10.3 33.2,8.8 32,8 33.5,8"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="39,6.5 39.5,8 41,8 39.8,8.8 40.2,10.3 39,9.5 37.8,10.3 38.2,8.8 37,8 38.5,8"
+                                                    transform="scale(0.8)" />
+                                                <!-- Row 3: 5 stars -->
+                                                <polygon
+                                                    points="22,9.5 22.5,11 24,11 22.8,11.8 23.2,13.3 22,12.5 20.8,13.3 21.2,11.8 20,11 21.5,11"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="27,9.5 27.5,11 29,11 27.8,11.8 28.2,13.3 27,12.5 25.8,13.3 26.2,11.8 25,11 26.5,11"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="32,9.5 32.5,11 34,11 32.8,11.8 33.2,13.3 32,12.5 30.8,13.3 31.2,11.8 30,11 31.5,11"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="37,9.5 37.5,11 39,11 37.8,11.8 38.2,13.3 37,12.5 35.8,13.3 36.2,11.8 35,11 36.5,11"
+                                                    transform="scale(0.8)" />
+                                                <polygon
+                                                    points="42,9.5 42.5,11 44,11 42.8,11.8 43.2,13.3 42,12.5 40.8,13.3 41.2,11.8 40,11 41.5,11"
+                                                    transform="scale(0.8)" />
+                                            </g>
                                         </svg>
-                                        <span class="ref-country-code">RUS</span>
+                                        <span class="ref-country-code">UZ</span>
                                     </div>
                                 </div>
                                 <button class="btn btn-ref-cta" onclick="startQuickQuote()">Рассчитать</button>
@@ -745,6 +798,8 @@
     </div>
 
     <!-- Removed old modal -->
+
+
 
 
 
