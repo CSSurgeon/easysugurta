@@ -269,9 +269,82 @@ function updateRegionFromPlate() {
     }
 }
 
+// ============================================
+// OSAGO PRICING CALCULATION
+// ============================================
+
+/**
+ * OSAGO Pricing Table (на 1 год)
+ * Based on the official pricing structure
+ * 
+ * Prices based on:
+ * - Vehicle Type (Вид ТС): car, truck, bus, motorcycle
+ * - Region (Регион): tashkent (Ташкент/обл.), other (Другие регионы)
+ * - Driver Count: limited (огр./до 5), unlimited (неогр.)
+ */
+const OSAGO_PRICES = {
+    car: {
+        tashkent: { limited: 192000, unlimited: 384000 },
+        other: { limited: 160000, unlimited: 320000 }
+    },
+    truck: {
+        tashkent: { limited: 336000, unlimited: 672000 },
+        other: { limited: 280000, unlimited: 560000 }
+    },
+    bus: {
+        tashkent: { limited: 384000, unlimited: 768000 },
+        other: { limited: 320000, unlimited: 640000 }
+    },
+    motorcycle: {
+        tashkent: { limited: 72000, unlimited: 144000 },
+        other: { limited: 60000, unlimited: 120000 }
+    }
+};
+
+/**
+ * Calculate OSAGO price based on parameters
+ * @param {string} vehicleType - Type of vehicle: 'car', 'truck', 'bus', 'motorcycle'
+ * @param {string} region - Region: 'tashkent' or 'other'  
+ * @param {string} driverCount - Driver count: 'limited' or 'unlimited'
+ * @param {string} period - Insurance period: '6months' or '1year'
+ * @returns {number} - Price in UZS
+ */
+function calculateOSAGOPrice(vehicleType, region, driverCount, period) {
+    // Get base price for 1 year
+    const basePrice = OSAGO_PRICES[vehicleType]?.[region]?.[driverCount] || 0;
+
+    // If 6 months, return half price
+    if (period === '6months') {
+        return Math.round(basePrice / 2);
+    }
+
+    return basePrice;
+}
+
+/**
+ * Update the pricing display in the results panel
+ */
+function updatePricingDisplay() {
+    const vehicleType = document.getElementById('calc_vehicle_type')?.value || 'car';
+    const region = document.getElementById('calc_region')?.value || 'tashkent';
+    const driverCount = document.getElementById('calc_driver_count')?.value || 'unlimited';
+    const period = document.getElementById('calc_period')?.value || '1year';
+
+    const price = calculateOSAGOPrice(vehicleType, region, driverCount, period);
+
+    // Update the displayed price
+    const costAmountEl = document.querySelector('.cost-amount');
+    if (costAmountEl) {
+        // Format price with spaces for thousands
+        const formattedPrice = price.toLocaleString('ru-RU');
+        // Calculate approximate USD value (assuming 1 USD ≈ 12,200 UZS)
+        const usdPrice = (price / 12200).toFixed(2);
+        costAmountEl.innerHTML = `${formattedPrice} сум <span class="cost-usd">(${usdPrice} $)</span>`;
+    }
+}
 
 
-// Translations
+
 const translations = {
     ru: {
         header_btn_buy: "Купить ОСАГО",
@@ -649,11 +722,33 @@ function calculateProgressBySection() {
     return 35; // Default starting value
 }
 
-function openWizard() {
+// Transfer car number from hero section to wizard
+function startQuickQuote() {
+    const heroCarNumber = document.getElementById('hero_car_number');
+    const carNumber = heroCarNumber ? heroCarNumber.value.trim() : '';
+
+    // Open wizard with the car number
+    openWizard(carNumber);
+}
+
+function openWizard(carNumber = '') {
     document.getElementById('main-landing').style.display = 'none';
     document.getElementById('wizard-container').style.display = 'block';
     window.scrollTo(0, 0);
     resetWizard();
+
+    // Pre-fill car number if provided
+    if (carNumber) {
+        const osagoGovNumber = document.getElementById('osago_gov_number');
+        if (osagoGovNumber) {
+            osagoGovNumber.value = carNumber;
+
+            // Trigger region detection if the function exists
+            if (typeof updateRegionFromPlate === 'function') {
+                updateRegionFromPlate();
+            }
+        }
+    }
 
     // Show progress starting at meaningful value (35%)
     updateProgressIndicator(35);
@@ -672,7 +767,12 @@ function resetWizard() {
     drivers = [];
     renderDrivers();
     updateWizardUI();
-    document.getElementById('agree_terms').checked = false;
+
+    // Use correct checkbox ID
+    const agreeCheckbox = document.getElementById('osago_agree_terms');
+    if (agreeCheckbox) {
+        agreeCheckbox.checked = false;
+    }
 
     // Clear search results when resetting wizard
     clearSearchResults();
@@ -1787,54 +1887,77 @@ let formProgress = 0;
 
 /**
  * Calculate form completion progress based on filled required fields
- * Progress rules:
- * - License plate: +15%
- * - Tech passport series: +15%
- * - Tech passport number: +15%
- * - Vehicle parameters: +20%
- * - Personal data: +35%
+ * NEW Progress rules - distributed across ALL steps:
+ * - License plate: +10%
+ * - Tech passport series: +10%
+ * - Tech passport number: +10%
+ * - Vehicle data loaded: +15%
+ * - Calculation parameters (vehicle type, region, drivers, period, start date): +25%
+ * - Owner passport series: +10%
+ * - Owner passport number: +10%
+ * - Owner date of birth: +10%
  * Total: 100%
  */
 function calculateFormProgress() {
     let progress = 0;
 
-    // 1. License plate entered → +15%
+    // Step 1: Basic vehicle identification
+    // 1. License plate entered → +10%
     const licensePlate = document.getElementById('osago_gov_number')?.value.trim();
     if (licensePlate && licensePlate.length >= 8) {
-        progress += 15;
+        progress += 10;
     }
 
-    // 2. Technical passport series entered → +15%
+    // 2. Technical passport series entered → +10%
     const techSeries = document.getElementById('osago_tech_series')?.value.trim();
     if (techSeries && techSeries.length === 3) {
-        progress += 15;
+        progress += 10;
     }
 
-    // 3. Technical passport number entered → +15%
+    // 3. Technical passport number entered → +10%
     const techNumber = document.getElementById('osago_tech_number')?.value.trim();
     if (techNumber && techNumber.length === 7) {
-        progress += 15;
+        progress += 10;
     }
 
-    // 4. Vehicle parameters completed → +20%
+    // 4. Vehicle data successfully loaded → +15%
     // Check if vehicle info section is visible (indicates successful data load)
     const vehicleInfoSection = document.getElementById('vehicle_info_section');
     const isVehicleDataLoaded = vehicleInfoSection && vehicleInfoSection.style.display !== 'none';
     if (isVehicleDataLoaded) {
-        progress += 20;
+        progress += 15;
     }
 
-    // 5. Personal data completed → +35%
-    // Personal data = calculation parameters (vehicle type, region, driver count, period, start date)
+    // 5. Calculation parameters completed → +25%
+    // All calculation parameters (vehicle type, region, driver count, period, start date)
     const vehicleType = document.getElementById('calc_vehicle_type')?.value;
     const region = document.getElementById('calc_region')?.value;
     const driverCount = document.getElementById('calc_driver_count')?.value;
     const period = document.getElementById('calc_period')?.value;
     const startDate = document.getElementById('calc_start_date')?.value;
 
-    // All personal data fields must be filled
+    // All calculation parameter fields must be filled
     if (vehicleType && region && driverCount && period && startDate) {
-        progress += 35;
+        progress += 25;
+    }
+
+    // Step 2: Owner personal data (passport and DOB)
+    // 6. Owner passport series → +10%
+    const passportSeries = document.getElementById('osago_owner_passport_series')?.value.trim();
+    if (passportSeries && passportSeries.length === 2) {
+        progress += 10;
+    }
+
+    // 7. Owner passport number → +10%
+    const passportNumber = document.getElementById('osago_owner_passport_number')?.value.trim();
+    if (passportNumber && passportNumber.length === 7) {
+        progress += 10;
+    }
+
+    // 8. Owner date of birth → +10%
+    const dob = document.getElementById('osago_owner_dob')?.value;
+    if (dob) {
+        progress += 10;
     }
 
     return Math.min(progress, 100); // Cap at 100%
@@ -1875,7 +1998,11 @@ function initializeFormProgressTracking() {
         'calc_vehicle_type',
         'calc_region',
         'calc_period',
-        'calc_driver_count'
+        'calc_driver_count',
+        'calc_start_date',
+        'osago_owner_passport_series',
+        'osago_owner_passport_number',
+        'osago_owner_dob'
     ];
 
     // Add event listeners for real-time updates
@@ -1895,6 +2022,21 @@ function initializeFormProgressTracking() {
 // Initialize progress tracking when page loads
 document.addEventListener('DOMContentLoaded', function () {
     initializeFormProgressTracking();
+
+    // Add event listeners for pricing calculation updates
+    const calcVehicleType = document.getElementById('calc_vehicle_type');
+    const calcRegion = document.getElementById('calc_region');
+    const calcDriverCount = document.getElementById('calc_driver_count');
+    const calcPeriod = document.getElementById('calc_period');
+
+    [calcVehicleType, calcRegion, calcDriverCount, calcPeriod].forEach(element => {
+        if (element) {
+            element.addEventListener('change', updatePricingDisplay);
+        }
+    });
+
+    // Initial pricing calculation
+    updatePricingDisplay();
 });
 
 // Also initialize if DOMContentLoaded has already fired
@@ -1904,4 +2046,3 @@ if (document.readyState === 'loading') {
     // DOM is already ready
     initializeFormProgressTracking();
 }
-
