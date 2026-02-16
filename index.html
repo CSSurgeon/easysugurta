@@ -88,6 +88,16 @@
                         <kbd>K</kbd>
                     </div>
                 </div>
+
+                <!-- Account Icon -->
+                <button class="account-icon-btn" id="account-icon-btn" onclick="handleAccountClick()"
+                    aria-label="Личный кабинет" title="Войти">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </button>
             </div>
 
             <!-- Mobile Menu Toggle -->
@@ -714,7 +724,22 @@
         </div>
     </div>
 
+    <!-- Auth Modal -->
+    <div class="auth-modal-overlay" id="auth-modal" onclick="if(event.target===this) closeAuthModal()">
+        <div class="auth-modal">
+            <button class="auth-modal-close" onclick="closeAuthModal()" aria-label="Закрыть">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <div id="auth-modal-content"></div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="auth.js"></script>
 </body>
 
 </html>
