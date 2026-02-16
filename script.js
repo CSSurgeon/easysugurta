@@ -35,14 +35,16 @@ function getAutoTheme() {
 // Apply theme to the page
 function applyTheme(theme) {
     const body = document.body;
-    const themeIcon = document.getElementById('theme-icon');
+    const themeIconSvg = document.getElementById('theme-icon-svg');
 
     if (theme === 'dark') {
         body.classList.add('dark');
-        if (themeIcon) themeIcon.textContent = '☀️';
+        // Moon icon for dark mode
+        if (themeIconSvg) themeIconSvg.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
     } else {
         body.classList.remove('dark');
-        if (themeIcon) themeIcon.textContent = '🌙';
+        // Sun icon for light mode
+        if (themeIconSvg) themeIconSvg.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
     }
 }
 
@@ -586,12 +588,7 @@ function setLanguage(lang) {
 }
 
 function updateLangDropdownDisplay(lang) {
-    const flagEl = document.getElementById('current-lang-flag');
     const nameEl = document.getElementById('current-lang-name');
-
-    if (flagEl && langData[lang]) {
-        flagEl.innerHTML = langData[lang].flag;
-    }
     if (nameEl && langData[lang]) {
         nameEl.textContent = langData[lang].name;
     }
@@ -636,6 +633,20 @@ document.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeLangDropdown();
+        // Blur search if focused
+        const searchInput = document.getElementById('header-search-input');
+        if (searchInput && document.activeElement === searchInput) {
+            searchInput.blur();
+        }
+    }
+    // Ctrl+K to focus header search
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.getElementById('header-search-input');
+        if (searchInput) {
+            searchInput.focus();
+            searchInput.select();
+        }
     }
 });
 
@@ -2046,3 +2057,362 @@ if (document.readyState === 'loading') {
     // DOM is already ready
     initializeFormProgressTracking();
 }
+// ============================================\r
+// ============================================
+// Toggle Relatives Document Item
+// ============================================
+
+/**
+ * Toggles the "Relatives' passport" document item visibility
+ * based on driver count selection (limited vs unlimited)
+ */
+function toggleRelativesDocItem() {
+    const driverCountSelect = document.getElementById('calc_driver_count');
+    const relativesDocItem = document.getElementById('relatives_doc_item');
+
+    if (driverCountSelect && relativesDocItem) {
+        const driverCount = driverCountSelect.value;
+
+        // Show relatives doc only if "limited" is selected
+        if (driverCount === 'limited') {
+            relativesDocItem.style.display = 'list-item';
+        } else {
+            relativesDocItem.style.display = 'none';
+        }
+    }
+}
+
+// ============================================
+// Hero Quick Quote Function
+// ============================================
+
+/**
+ * Starts the OSAGO wizard from the hero section
+ * Transfers the license plate number from hero input to wizard
+ */
+function startQuickQuote() {
+    // Get the license plate entered in hero section
+    const heroCarNumber = document.getElementById('hero_car_number');
+    const wizardCarNumber = document.getElementById('osago_car_number');
+
+    // Transfer value if it exists
+    if (heroCarNumber && wizardCarNumber && heroCarNumber.value.trim()) {
+        wizardCarNumber.value = heroCarNumber.value.trim();
+    }
+
+    // Hide main landing page
+    const mainLanding = document.getElementById('main-landing');
+    const wizardContainer = document.getElementById('wizard-container');
+
+    if (mainLanding) {
+        mainLanding.style.display = 'none';
+    }
+
+    if (wizardContainer) {
+        wizardContainer.style.display = 'block';
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================
+// Sidebar Block Toggle Functions  
+// ============================================
+
+/**
+ * Toggles collapsible sidebar blocks
+ */
+function toggleSidebarBlock(blockId) {
+    const block = document.getElementById(blockId);
+    const parentBlock = block ? block.closest('.collapsible-block') : null;
+
+    if (parentBlock) {
+        parentBlock.classList.toggle('collapsed');
+    }
+}
+
+/**
+ * Toggles coverage information visibility
+ */
+function toggleCoverageInfo() {
+    const coverageInfo = document.getElementById('coverage-info');
+
+    if (coverageInfo) {
+        if (coverageInfo.style.display === 'none') {
+            coverageInfo.style.display = 'block';
+        } else {
+            coverageInfo.style.display = 'none';
+        }
+    }
+}
+
+/**
+ * Toggles coverage information in new clean sidebar card
+ */
+function toggleCoverage() {
+    const content = document.getElementById('coverage-content');
+    const header = document.querySelector('.coverage-header');
+
+    if (content && header) {
+        content.classList.toggle('collapsed');
+        header.classList.toggle('collapsed');
+    }
+}
+
+
+/**
+ * Updates the step progress bar based on current step
+ * @param {number} currentStep - The current step number (1, 2, or 3)
+ */
+function updateStepProgress(currentStep) {
+    const stepItems = document.querySelectorAll('.step-item');
+    const stepLines = document.querySelectorAll('.step-line');
+
+    stepItems.forEach((item, index) => {
+        const stepNumber = index + 1;
+
+        // Remove all states
+        item.classList.remove('active', 'completed');
+
+        // Add appropriate state
+        if (stepNumber < currentStep) {
+            item.classList.add('completed');
+        } else if (stepNumber === currentStep) {
+            item.classList.add('active');
+        }
+    });
+
+    // Update progress lines
+    stepLines.forEach((line, index) => {
+        const lineNumber = index + 1;
+
+        // Fill line if the step before it is completed
+        if (lineNumber < currentStep) {
+            line.classList.add('filled');
+        } else {
+            line.classList.remove('filled');
+        }
+    });
+}
+
+// Call on page load to set initial state
+document.addEventListener('DOMContentLoaded', function () {
+    updateStepProgress(1); // Start at step 1
+});
+
+// ============================================
+// Currency Exchange Integration
+// ============================================
+
+const EXCHANGE_API_KEY = '06e784f25e2ce7fa8ba68f96';
+const EXCHANGE_API_URL = `https://v6.exchangerate-api.com/v6/${EXCHANGE_API_KEY}/latest/UZS`;
+
+// Store exchange rates
+let exchangeRates = {
+    USD: null,
+    EUR: null,
+    RUB: null,
+    lastUpdated: null
+};
+
+/**
+ * Fetches latest exchange rates from API
+ */
+async function fetchExchangeRates() {
+    try {
+        const response = await fetch(EXCHANGE_API_URL);
+        const data = await response.json();
+
+        if (data.result === 'success') {
+            exchangeRates.USD = data.conversion_rates.USD;
+            exchangeRates.EUR = data.conversion_rates.EUR;
+            exchangeRates.RUB = data.conversion_rates.RUB;
+            exchangeRates.lastUpdated = new Date();
+
+            console.log('Exchange rates updated:', exchangeRates);
+            return true;
+        }
+    } catch (error) {
+        console.error('Failed to fetch exchange rates:', error);
+        return false;
+    }
+}
+
+/**
+ * Converts UZS amount to target currency
+ * @param {number} amountUZS - Amount in Uzbekistan Sum
+ * @param {string} targetCurrency - Target currency code (USD, EUR, RUB)
+ * @returns {number} Converted amount
+ */
+function convertCurrency(amountUZS, targetCurrency) {
+    if (!exchangeRates[targetCurrency]) {
+        return null;
+    }
+
+    const converted = amountUZS * exchangeRates[targetCurrency];
+    return Math.round(converted * 100) / 100; // Round to 2 decimals
+}
+
+/**
+ * Formats currency amount with proper separators
+ * @param {number} amount - Amount to format
+ * @param {string} currency - Currency code
+ * @returns {string} Formatted currency string
+ */
+function formatCurrency(amount, currency) {
+    const symbols = {
+        UZS: 'СЃСѓРј',
+        USD: '$',
+        EUR: 'в‚¬',
+        RUB: 'в‚Ѕ'
+    };
+
+    if (currency === 'UZS') {
+        // Format UZS with space separator (e.g., 384.000)
+        return amount.toLocaleString('ru-RU').replace(/,/g, '.') + ' ' + symbols[currency];
+    } else {
+        // Format other currencies with standard formatting
+        return symbols[currency] + amount.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+}
+
+/**
+ * Updates price display with currency conversion
+ */
+function updatePriceWithCurrency() {
+    const priceElement = document.getElementById('policy_price');
+    if (!priceElement) return;
+
+    // Get current price in UZS (remove formatting)
+    const priceText = priceElement.textContent;
+    const priceUZS = parseInt(priceText.replace(/[^\d]/g, ''));
+
+    if (!priceUZS) return;
+
+    // Format UZS price
+    const uzsFormatted = formatCurrency(priceUZS, 'UZS');
+
+    // Build price HTML
+    let priceHTML = `<span class="price-main">${uzsFormatted}</span>`;
+
+    // Add converted prices if rates are available
+    if (exchangeRates.USD) {
+        const usdAmount = convertCurrency(priceUZS, 'USD');
+        const eurAmount = convertCurrency(priceUZS, 'EUR');
+
+        priceHTML += `
+            <span class="price-converted">
+                ${formatCurrency(usdAmount, 'USD')} / ${formatCurrency(eurAmount, 'EUR')}
+            </span>
+        `;
+    }
+
+    priceElement.innerHTML = priceHTML;
+}
+
+/**
+ * Initialize currency exchange on page load
+ */
+async function initCurrencyExchange() {
+    const success = await fetchExchangeRates();
+
+    if (success) {
+        updatePriceWithCurrency();
+
+        // Refresh rates every 1 hour
+        setInterval(fetchExchangeRates, 3600000);
+    }
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function () {
+    initCurrencyExchange();
+});
+
+// ============================================
+// Currency Selector in Header
+// ============================================
+
+let selectedCurrency = 'UZS'; // Global currency selection
+
+/**
+ * Toggles the currency dropdown menu
+ */
+function toggleCurrencyDropdown() {
+    const dropdown = document.getElementById('currency-dropdown');
+    const btn = document.getElementById('currency-btn');
+
+    if (dropdown && btn) {
+        dropdown.classList.toggle('active');
+        btn.classList.toggle('active');
+    }
+}
+
+/**
+ * Selects a currency and updates the display
+ * @param {string} currency - Currency code (UZS, USD, EUR)
+ */
+function selectCurrency(currency) {
+    selectedCurrency = currency;
+
+    // Update button text
+    const selectedCurrencyEl = document.getElementById('selected-currency');
+    if (selectedCurrencyEl) {
+        selectedCurrencyEl.textContent = currency;
+    }
+
+    // Update active state in dropdown
+    const options = document.querySelectorAll('.currency-option');
+    options.forEach(option => {
+        if (option.dataset.currency === currency) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
+
+    // Close dropdown
+    toggleCurrencyDropdown();
+
+    // Update all prices on the page
+    updateAllPricesWithCurrency(currency);
+
+    console.log('Currency changed to:', currency);
+}
+
+/**
+ * Updates all prices on the page based on selected currency
+ * @param {string} currency - Target currency code
+ */
+function updateAllPricesWithCurrency(currency) {
+    const priceElement = document.getElementById('policy_price');
+    if (!priceElement) return;
+
+    // Get base price in UZS
+    const basePriceUZS = 384000; // You can make this dynamic
+
+    if (currency === 'UZS') {
+        priceElement.innerHTML = `<span class="price-main">${formatCurrency(basePriceUZS, 'UZS')}</span>`;
+    } else if (exchangeRates[currency]) {
+        const converted = convertCurrency(basePriceUZS, currency);
+        priceElement.innerHTML = `
+            <span class="price-main">${formatCurrency(converted, currency)}</span>
+            <span class="price-converted">${formatCurrency(basePriceUZS, 'UZS')}</span>
+        `;
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function (event) {
+    const currencySelector = document.querySelector('.currency-selector');
+    const dropdown = document.getElementById('currency-dropdown');
+
+    if (currencySelector && dropdown && !currencySelector.contains(event.target)) {
+        dropdown.classList.remove('active');
+        document.getElementById('currency-btn')?.classList.remove('active');
+    }
+});
