@@ -16,76 +16,81 @@
 
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="site-header">
         <div class="container header-container">
-            <div class="logo">
-                <span class="logo-bold">EASY</span>
-                <span class="logo-light">SUGURTA</span>
-            </div>
-            <nav class="nav">
-                <a href="#" class="nav-link btn-header-cta" onclick="openWizard()" data-i18n="header_btn_buy">Купить
-                    ОСАГО</a>
+            <!-- Left: Logo -->
+            <a href="#" class="header-logo" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">
+                <span class="header-logo-text">EASY SUGURTA</span>
+            </a>
+
+            <!-- Right: Controls -->
+            <div class="header-right">
+                <!-- Language Selector -->
                 <div class="lang-dropdown" id="lang-dropdown">
                     <button class="lang-dropdown-btn" onclick="toggleLangDropdown()" aria-haspopup="true"
                         aria-expanded="false">
-                        <span class="lang-flag" id="current-lang-flag">
-                            <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="60" height="13.33" y="0" fill="#FFFFFF" />
-                                <rect width="60" height="13.33" y="13.33" fill="#0039A6" />
-                                <rect width="60" height="13.33" y="26.66" fill="#D52B1E" />
-                            </svg>
-                        </span>
+                        <svg class="lang-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 8l6 6" />
+                            <path d="M4 14l6-6 2-3" />
+                            <path d="M2 5h12" />
+                            <path d="M7 2h1" />
+                            <path d="M22 22l-5-10-5 10" />
+                            <path d="M14 18h6" />
+                        </svg>
                         <span class="lang-name" id="current-lang-name">Русский</span>
-                        <svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
+                        <svg class="lang-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </button>
                     <div class="lang-dropdown-menu" id="lang-dropdown-menu">
                         <button class="lang-option" data-lang="uz" onclick="selectLanguage('uz')">
-                            <span class="lang-flag">
-                                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="60" height="13.33" y="0" fill="#1EB53A" />
-                                    <rect width="60" height="13.33" y="13.33" fill="#FFFFFF" />
-                                    <rect width="60" height="13.33" y="26.66" fill="#1EB53A" />
-                                    <rect width="60" height="1" y="12.83" fill="#D52B1E" />
-                                    <rect width="60" height="1" y="26.16" fill="#D52B1E" />
-                                    <circle cx="10" cy="6.5" r="4" fill="#FFFFFF" />
-                                    <circle cx="12" cy="6.5" r="3.5" fill="#1EB53A" />
-                                </svg>
-                            </span>
-                            <span class="lang-label">O'zbekcha</span>
+                            O'zbekcha
                         </button>
                         <button class="lang-option" data-lang="en" onclick="selectLanguage('en')">
-                            <span class="lang-flag">
-                                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="60" height="40" fill="#012169" />
-                                    <path d="M0,0 L60,40 M60,0 L0,40" stroke="#FFFFFF" stroke-width="6" />
-                                    <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" stroke-width="4" />
-                                    <path d="M30,0 V40 M0,20 H60" stroke="#FFFFFF" stroke-width="10" />
-                                    <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" stroke-width="6" />
-                                </svg>
-                            </span>
-                            <span class="lang-label">English</span>
+                            English
                         </button>
                         <button class="lang-option active" data-lang="ru" onclick="selectLanguage('ru')">
-                            <span class="lang-flag">
-                                <svg viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="60" height="13.33" y="0" fill="#FFFFFF" />
-                                    <rect width="60" height="13.33" y="13.33" fill="#0039A6" />
-                                    <rect width="60" height="13.33" y="26.66" fill="#D52B1E" />
-                                </svg>
-                            </span>
-                            <span class="lang-label">Русский</span>
+                            Русский
                         </button>
                     </div>
                 </div>
-                <!-- Theme Toggle Button -->
+
+                <!-- Theme Toggle -->
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark Mode"
                     title="Переключить тему">
-                    <span class="theme-icon" id="theme-icon">🌙</span>
+                    <svg class="theme-icon-svg" id="theme-icon-svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
                 </button>
-            </nav>
+
+                <!-- Search Field -->
+                <div class="header-search" id="header-search">
+                    <svg class="header-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" class="header-search-input" id="header-search-input" placeholder="Поиск">
+                    <div class="header-search-shortcut">
+                        <kbd>Ctrl</kbd>
+                        <kbd>K</kbd>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
             <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
@@ -126,137 +131,51 @@
     <!-- Main Content (Hidden when Wizard is active) -->
     <div id="main-landing">
         <!-- Hero Section -->
-        <section class="hero-modern">
+        <section class="hero-payme" id="hero-section">
             <div class="container">
-                <div class="hero-wrapper">
-                    <div class="hero-grid">
-                        <!-- Left: Text Content -->
+                <div class="hero-card">
+                    <div class="hero-inner">
+                        <!-- Left: Content -->
                         <div class="hero-content">
-                            <div class="hero-badge">Цифровое страхование</div>
-                            <h1 class="hero-heading" data-i18n="hero_heading">OSAGO registration — instantly</h1>
-                            <p class="hero-subheading">Свободный выбор страховой компании и оформление электронного
-                                полиса
-                                онлайн.</p>
-                            <div class="hero-quick-quote">
-                                <div class="ref-input-wrapper">
-                                    <input type="text" id="hero_car_number" placeholder="01 A 123 AA"
-                                        class="ref-plate-input">
-                                    <div class="ref-country-selector">
-                                        <svg class="ref-flag" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
-                                            <!-- Blue stripe (top) -->
+                            <h1 class="hero-heading" data-i18n="hero_heading">Оформление ОСАГО — мгновенно</h1>
+                            <p class="hero-subtitle">Быстрое онлайн оформление страхового полиса</p>
+
+                            <div class="hero-input-group">
+                                <div class="hero-plate-wrap">
+                                    <input type="text" id="hero_car_number" class="hero-plate-input"
+                                        placeholder="01 A 123 AA" autocomplete="off">
+                                    <div class="hero-plate-uz">
+                                        <svg class="hero-uz-flag" viewBox="0 0 60 40"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <rect width="60" height="12.67" y="0" fill="#1EB2C7" />
-                                            <!-- Top red border -->
                                             <rect width="60" height="0.67" y="12.67" fill="#CE1126" />
-                                            <!-- White stripe (middle) -->
                                             <rect width="60" height="13.33" y="13.33" fill="#FFFFFF" />
-                                            <!-- Bottom red border -->
                                             <rect width="60" height="0.67" y="26.67" fill="#CE1126" />
-                                            <!-- Green stripe (bottom) -->
                                             <rect width="60" height="13.33" y="27.33" fill="#1EB53A" />
-                                            <!-- Crescent moon (white) -->
                                             <circle cx="12" cy="6.33" r="4" fill="#FFFFFF" />
-                                            <!-- Inner circle to create crescent -->
                                             <circle cx="13.5" cy="6.33" r="3.5" fill="#1EB2C7" />
-                                            <!-- Stars (12 stars in three rows: 3-4-5) -->
-                                            <g fill="#FFFFFF">
-                                                <!-- Row 1: 3 stars -->
-                                                <polygon
-                                                    points="22,3.5 22.5,5 24,5 22.8,5.8 23.2,7.3 22,6.5 20.8,7.3 21.2,5.8 20,5 21.5,5"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="27,3.5 27.5,5 29,5 27.8,5.8 28.2,7.3 27,6.5 25.8,7.3 26.2,5.8 25,5 26.5,5"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="32,3.5 32.5,5 34,5 32.8,5.8 33.2,7.3 32,6.5 30.8,7.3 31.2,5.8 30,5 31.5,5"
-                                                    transform="scale(0.8)" />
-                                                <!-- Row 2: 4 stars -->
-                                                <polygon
-                                                    points="24,6.5 24.5,8 26,8 24.8,8.8 25.2,10.3 24,9.5 22.8,10.3 23.2,8.8 22,8 23.5,8"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="29,6.5 29.5,8 31,8 29.8,8.8 30.2,10.3 29,9.5 27.8,10.3 28.2,8.8 27,8 28.5,8"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="34,6.5 34.5,8 36,8 34.8,8.8 35.2,10.3 34,9.5 32.8,10.3 33.2,8.8 32,8 33.5,8"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="39,6.5 39.5,8 41,8 39.8,8.8 40.2,10.3 39,9.5 37.8,10.3 38.2,8.8 37,8 38.5,8"
-                                                    transform="scale(0.8)" />
-                                                <!-- Row 3: 5 stars -->
-                                                <polygon
-                                                    points="22,9.5 22.5,11 24,11 22.8,11.8 23.2,13.3 22,12.5 20.8,13.3 21.2,11.8 20,11 21.5,11"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="27,9.5 27.5,11 29,11 27.8,11.8 28.2,13.3 27,12.5 25.8,13.3 26.2,11.8 25,11 26.5,11"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="32,9.5 32.5,11 34,11 32.8,11.8 33.2,13.3 32,12.5 30.8,13.3 31.2,11.8 30,11 31.5,11"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="37,9.5 37.5,11 39,11 37.8,11.8 38.2,13.3 37,12.5 35.8,13.3 36.2,11.8 35,11 36.5,11"
-                                                    transform="scale(0.8)" />
-                                                <polygon
-                                                    points="42,9.5 42.5,11 44,11 42.8,11.8 43.2,13.3 42,12.5 40.8,13.3 41.2,11.8 40,11 41.5,11"
-                                                    transform="scale(0.8)" />
-                                            </g>
                                         </svg>
-                                        <span class="ref-country-code">UZ</span>
+                                        <span>UZ</span>
                                     </div>
                                 </div>
-                                <button class="btn btn-ref-cta" onclick="startQuickQuote()">Рассчитать</button>
+                                <button class="hero-cta-btn" onclick="startQuickQuote()">Рассчитать</button>
                             </div>
-                            <div class="hero-trust">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
+
+                            <div class="hero-trust-line">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2">
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                                 </svg>
                                 <span>Безопасно</span>
-                                <span class="trust-divider">•</span>
+                                <span class="hero-trust-dot">•</span>
                                 <span>Официально</span>
                             </div>
                         </div>
 
-                        <!-- Right: Hero Illustration -->
+                        <!-- Right: Visual -->
                         <div class="hero-visual">
-                            <img src="hero-illustration.png" alt="Man using smartphone for OSAGO insurance"
-                                class="hero-illustration">
+                            <img src="hero-illustration.png" alt="OSAGO Insurance" class="hero-img">
                         </div>
-                    </div>
-
-                    <!-- Benefits Row -->
-                    <div class="hero-benefits">
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                                    <polyline points="2 17 12 22 22 17" />
-                                    <polyline points="2 12 12 17 22 12" />
-                                </svg>
-                            </div>
-                            <span>Выбор страховых компаний</span>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <polyline points="12 6 12 12 16 14" />
-                                </svg>
-                            </div>
-                            <span>Оформление за несколько минут</span>
-                        </div>
-                        <div class="benefit-item">
-                            <div class="benefit-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                    <polyline points="14 2 14 8 20 8" />
-                                </svg>
-                            </div>
-                            <span>Электронный официальный полис</span>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -485,9 +404,28 @@
                     <!-- Main Page Title -->
                     <h1 class="osago-main-title">Оформление полиса</h1>
 
+                    <!-- Step Progress Bar -->
+                    <div class="step-progress-bar">
+                        <div class="step-item active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Выбор ТС</div>
+                        </div>
+                        <div class="step-line">
+                            <div class="step-line-fill"></div>
+                        </div>
+                        <div class="step-item" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Оформление</div>
+                        </div>
+                        <div class="step-line">
+                            <div class="step-line-fill"></div>
+                        </div>
+                        <div class="step-item" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Оплата</div>
+                        </div>
+                    </div>
 
-
-                    <!-- Step Content Area -->
                     <div class="osago-step-content">
                         <!-- Step 1: Vehicle Registration Certificate Data -->
                         <div id="osago_step_1" class="osago-step active">
@@ -569,159 +507,110 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Personal Data Section -->
-                        <h2 class="osago-section-title" style="margin-top: 32px;">Персональные данные</h2>
+                    <!-- Personal Data Section (Moved to Bottom) -->
+                    <h2 class="osago-section-title" style="margin-top: 32px;">Персональные данные</h2>
 
-                        <!-- Calculation Parameters Card (Collapsible) -->
-                        <div class="osago-params-card">
-                            <div class="params-header">
-                                <span class="params-title">Параметры расчёта</span>
-                                <button class="params-toggle" id="params_toggle_btn" aria-expanded="true"
-                                    aria-controls="params-content">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="params-content" id="params-content">
-                                <!-- Row 1: Vehicle Type & Region -->
-                                <div class="params-row">
-                                    <div class="params-field">
-                                        <label>Вид транспортного средства*</label>
-                                        <div class="select-wrapper">
-                                            <select id="calc_vehicle_type">
-                                                <option value="car" selected>Легковые автомобили</option>
-                                                <option value="truck">Грузовые автомобили</option>
-                                                <option value="bus">Автобусы</option>
-                                                <option value="motorcycle">Мотоциклы</option>
-                                                <option value="trailer">Прицепы</option>
-                                            </select>
-                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="params-field">
-                                        <label>Регион регистрации ТС*</label>
-                                        <div class="select-wrapper">
-                                            <select id="calc_region">
-                                                <option value="tashkent" selected>г.Ташкент и Ташкентская область
-                                                </option>
-                                                <option value="other">Другие регионы</option>
-                                            </select>
-                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg>
-                                        </div>
+                    <!-- Calculation Parameters Card (Collapsible) -->
+                    <div class="osago-params-card">
+                        <div class="params-header">
+                            <span class="params-title">Условия полиса</span>
+                        </div>
+                        <div class="params-content" id="params-content">
+
+                            <div class="params-row">
+                                <div class="params-field">
+                                    <label>Количество водителей*</label>
+                                    <div class="select-wrapper">
+                                        <select id="calc_driver_count"
+                                            onchange="updatePricingDisplay(); toggleRelativesDocItem();">
+                                            <option value="unlimited" selected>Не ограничено</option>
+                                            <option value="limited">Ограничено до 5 человек</option>
+                                        </select>
+                                        <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
                                     </div>
                                 </div>
-
-                                <!-- Row 2: Driver Count & Insurance Period -->
-                                <div class="params-row">
-                                    <div class="params-field">
-                                        <label>Количество водителей*</label>
-                                        <div class="select-wrapper">
-                                            <select id="calc_driver_count">
-                                                <option value="unlimited" selected>Не ограничено</option>
-                                                <option value="limited">Ограничено до 5 человек</option>
-                                            </select>
-                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="params-field">
-                                        <label>Период страхования*</label>
-                                        <div class="select-wrapper">
-                                            <select id="calc_period">
-                                                <option value="6months">6 месяцев</option>
-                                                <option value="1year" selected>1 год</option>
-                                            </select>
-                                            <svg class="select-arrow" width="12" height="12" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Row 3: Start Date & End Date -->
-                                <div class="params-row">
-                                    <div class="params-field">
-                                        <label>Начало страхования*</label>
-                                        <input type="date" id="calc_start_date" class="input-field">
-                                    </div>
-                                    <div class="params-field">
-                                        <label>Дата окончания</label>
-                                        <input type="text" id="calc_end_date" class="input-field readonly" readonly
-                                            disabled>
-                                    </div>
+                                <div class="params-field">
+                                    <label>Начало страхования*</label>
+                                    <input type="date" id="calc_start_date" class="input-field">
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Step 2: Owner -->
-                        <div id="osago_step_2" class="osago-step" style="display: none;">
-                            <h3 class="osago-section-title">Информация о владельце</h3>
+                    <!-- Step 2: Owner Information -->
+                    <div id="osago_step_2" class="osago-step" style="display: none;">
+                        <h3 class="osago-section-title">Информация о владельце</h3>
 
-                            <!-- Read-only owner data (from API) -->
-                            <div class="owner-fields-row">
-                                <div class="owner-field">
-                                    <label>ПИНФЛ</label>
-                                    <input type="text" id="osago_owner_pinfl" class="input-field readonly" readonly
-                                        disabled>
-                                </div>
-                                <div class="owner-field">
-                                    <label>ФИО владельца</label>
-                                    <input type="text" id="osago_owner_name" class="input-field readonly" readonly
-                                        disabled>
-                                </div>
-                            </div>
-
-                            <!-- Editable owner passport data -->
-                            <div class="owner-fields-row">
-                                <div class="owner-field small">
-                                    <label>Серия паспорта*</label>
-                                    <input type="text" id="osago_owner_passport_series" class="input-field"
-                                        placeholder="AA" maxlength="2">
-                                </div>
-                                <div class="owner-field">
-                                    <label>Номер паспорта*</label>
-                                    <input type="text" id="osago_owner_passport_number" class="input-field"
-                                        placeholder="1234567" maxlength="7">
-                                </div>
-                                <div class="owner-field">
-                                    <label>Дата рождения*</label>
-                                    <input type="date" id="osago_owner_dob" class="input-field">
-                                </div>
+                        <!-- PINFL (read-only) -->
+                        <div class="owner-fields-row">
+                            <div class="owner-field">
+                                <label>ПИНФЛ</label>
+                                <input type="text" id="osago_owner_pinfl" class="input-field readonly" readonly
+                                    disabled>
                             </div>
                         </div>
 
-                        <!-- Step 3: Applicant -->
-                        <div id="osago_step_3" class="osago-step" style="display: none;">
-                            <h3 class="osago-section-title">Информация о заявителе</h3>
-                            <div class="applicant-checkbox">
-                                <input type="checkbox" id="osago_applicant_is_owner" checked
-                                    onchange="toggleOsagoApplicantFields()">
-                                <label for="osago_applicant_is_owner">Заявитель является владельцем</label>
+                        <!-- Full name confirmation (non-editable text line) -->
+                        <div class="owner-name-confirmation" id="owner_name_confirmation"
+                            style="display: none; margin-top: 8px; padding: 12px; background: var(--bg-secondary); border-radius: 8px;">
+                            <span style="color: var(--text-secondary); font-size: 14px;">Владелец:</span>
+                            <span id="osago_owner_name_display" style="margin-left: 8px; font-weight: 500;"></span>
+                        </div>
+
+                        <!-- Editable passport data -->
+                        <div class="owner-fields-row" style="margin-top: 20px;">
+                            <div class="owner-field small">
+                                <label>Серия паспорта*</label>
+                                <input type="text" id="osago_owner_passport_series" class="input-field" placeholder="AA"
+                                    maxlength="2">
                             </div>
-                            <div id="osago_applicant_fields" class="applicant-fields" style="display: none;">
-                                <div class="owner-fields-row">
-                                    <div class="owner-field">
-                                        <label>Телефон*</label>
-                                        <input type="tel" id="osago_applicant_phone" class="input-field"
-                                            placeholder="+998 90 123 45 67">
-                                    </div>
-                                    <div class="owner-field">
-                                        <label>Email</label>
-                                        <input type="email" id="osago_applicant_email" class="input-field"
-                                            placeholder="email@example.com">
-                                    </div>
+                            <div class="owner-field">
+                                <label>Номер паспорта*</label>
+                                <input type="text" id="osago_owner_passport_number" class="input-field"
+                                    placeholder="1234567" maxlength="7">
+                            </div>
+                        </div>
+
+                        <!-- Phone number field -->
+                        <div class="owner-fields-row" style="margin-top: 20px;">
+                            <div class="owner-field">
+                                <label>Номер телефона*</label>
+                                <div class="phone-input-wrapper">
+                                    <span class="phone-prefix">+998</span>
+                                    <input type="tel" id="osago_owner_phone" class="input-field phone-input"
+                                        placeholder="90 123 45 67" maxlength="12">
+                                </div>
+                                <span
+                                    style="font-size: 13px; color: var(--text-secondary); margin-top: 6px; display: block;">Номер
+                                    телефона необходим для отправки электронного полиса</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Applicant -->
+                    <div id="osago_step_3" class="osago-step" style="display: none;">
+                        <h3 class="osago-section-title">Информация о заявителе</h3>
+                        <div class="applicant-checkbox">
+                            <input type="checkbox" id="osago_applicant_is_owner" checked
+                                onchange="toggleOsagoApplicantFields()">
+                            <label for="osago_applicant_is_owner">Заявитель является владельцем</label>
+                        </div>
+                        <div id="osago_applicant_fields" class="applicant-fields" style="display: none;">
+                            <div class="owner-fields-row">
+                                <div class="owner-field">
+                                    <label>Телефон*</label>
+                                    <input type="tel" id="osago_applicant_phone" class="input-field"
+                                        placeholder="+998 90 123 45 67">
+                                </div>
+                                <div class="owner-field">
+                                    <label>Email</label>
+                                    <input type="email" id="osago_applicant_email" class="input-field"
+                                        placeholder="email@example.com">
                                 </div>
                             </div>
                         </div>
@@ -748,48 +637,28 @@
                     </div>
                 </div>
 
-                <!-- Right Column: Calculation Results -->
+                <!-- Right Column: Clean Policy Summary Card -->
                 <div class="osago-results-column">
-                    <h2 class="osago-section-title">Результаты расчета</h2>
-
-                    <!-- Dynamic Progress Indicator -->
-                    <div class="results-progress-indicator">
-                        <div class="progress-header">
-                            <span class="progress-label">Заполнено анкеты</span>
-                            <span class="progress-percentage" id="results_progress_text">0%</span>
-                        </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar-fill" id="results_progress_fill" style="width: 0%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="osago-results-card">
-                        <!-- Promo Code -->
-                        <div class="promo-field">
-                            <input type="text" id="osago_promo_code" class="input-field" placeholder="Промокод">
+                    <div class="policy-summary-card">
+                        <!-- Collapsible Coverage Header -->
+                        <div class="coverage-header" onclick="toggleCoverage()">
+                            <h3>Что покрывает полис</h3>
+                            <span class="toggle-icon">▼</span>
                         </div>
 
-                        <!-- Coverage Breakdown -->
-                        <div class="coverage-item">
-                            <span class="coverage-percent">65%</span>
-                            <span class="coverage-label">Ущерб жизни и здоровью</span>
+                        <!-- Coverage Info (collapsible) -->
+                        <div class="coverage-content" id="coverage-content">
+                            <div class="coverage-row">
+                                <span class="label">Страховая сумма</span>
+                                <span class="value">80.000.000 сум</span>
+                            </div>
+                            <div class="divider"></div>
                         </div>
 
-                        <div class="coverage-item">
-                            <span class="coverage-percent">35%</span>
-                            <span class="coverage-label">Ущерб имуществу</span>
-                        </div>
-
-                        <!-- Insurance Sum -->
-                        <div class="insurance-sum">
-                            <span class="sum-amount">80.000.000 сум</span>
-                            <span class="sum-label">Страховая сумма</span>
-                        </div>
-
-                        <!-- Policy Cost (highlighted) -->
-                        <div class="policy-cost">
-                            <span class="cost-amount">384.000 сум <span class="cost-usd">(31,48 $)</span></span>
-                            <span class="cost-label">Стоимость полиса</span>
+                        <!-- Price Section -->
+                        <div class="price-section">
+                            <div class="price-label">Стоимость полиса</div>
+                            <div class="price-value" id="policy_price">384.000 сум</div>
                         </div>
                     </div>
                 </div>
