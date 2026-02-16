@@ -1100,19 +1100,31 @@ body.dark .hero-card::before {
     }
 }
 
-/* --- Mobile: stack vertically, show image below --- */
+/* --- Mobile: Clean Payme Business style --- */
 @media (max-width: 767px) {
+    .hero-payme {
+        padding: 0;
+    }
+
     .hero-card {
         border-radius: 0;
+        box-shadow: none;
+        background: #fff;
     }
 
     .hero-card::before {
-        width: 100%;
-        clip-path: polygon(0 50%, 100% 35%, 100% 100%, 0% 100%);
+        display: none;
+        /* Remove diagonal on mobile */
     }
 
     .hero-inner {
-        padding: 32px 20px;
+        padding: 32px 20px 24px;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .hero-content {
+        order: 1;
     }
 
     .hero-visual {
@@ -1122,36 +1134,18 @@ body.dark .hero-card::before {
     }
 
     .hero-img {
-        max-width: 260px;
+        max-width: 240px;
         max-height: 180px;
     }
 
-    .hero-content {
-        order: 1;
-    }
-
     .hero-trust-line {
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     .hero-input-group {
+        flex-direction: column;
         align-items: stretch;
-    }
-}
-
-@media (max-width: 375px) {
-    .hero-inner {
-        padding: 24px 16px;
-    }
-
-    .hero-plate-input {
-        height: 50px;
-        font-size: 16px;
-    }
-
-    .hero-cta-btn {
-        height: 50px;
-        font-size: 14px;
+        gap: 10px;
     }
 }
 
@@ -5672,20 +5666,21 @@ body.dark .currency-name {
 }
 
 /* ========================================= */
-/* COMPREHENSIVE MOBILE OPTIMIZATION         */
-/* Screens 320px – 768px                     */
-/* Touch-friendly, readable, no h-scroll     */
+/* PAYME BUSINESS MOBILE STYLE               */
+/* Clean, minimal, documentation-like UI     */
+/* Screens ≤ 768px • Desktop unchanged       */
 /* ========================================= */
 
 @media (max-width: 768px) {
 
-    /* ---- Global Touch Targets ---- */
+    /* ============ GLOBAL RESETS ============ */
+
+    /* Touch targets & iOS zoom fix */
     input,
     select,
     textarea {
         min-height: 48px;
         font-size: 16px !important;
-        /* Prevents iOS zoom on focus */
     }
 
     button,
@@ -5694,18 +5689,66 @@ body.dark .currency-name {
         min-height: 48px;
     }
 
-    /* ---- Container ---- */
+    /* Container: clean 20px margins */
     .container {
-        padding: 0 16px;
+        padding: 0 20px;
     }
 
-    /* ---- Buttons: full-width on mobile ---- */
+    /* Remove all heavy shadows globally */
+    .card,
+    .hero-card,
+    .wizard-card,
+    .modal-content,
+    .simple-feature,
+    .choice-card {
+        box-shadow: none !important;
+    }
+
+    /* ============ TYPOGRAPHY ============ */
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        text-align: left;
+        letter-spacing: -0.3px;
+    }
+
+    .section-desc {
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 24px;
+        padding: 0;
+        text-align: left;
+        color: var(--text-secondary);
+    }
+
+    .badge {
+        font-size: 12px;
+        padding: 4px 10px;
+        margin-bottom: 12px;
+        display: inline-block;
+    }
+
+    /* ============ BUTTONS — FLAT ============ */
+
     .btn,
     .btn-primary,
     .btn-secondary {
         width: 100%;
-        justify-content: center;
+        border-radius: 12px;
+        box-shadow: none;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0;
         text-align: center;
+        justify-content: center;
+    }
+
+    .btn:hover,
+    .btn-primary:hover {
+        transform: none;
+        box-shadow: none;
     }
 
     .center-btn {
@@ -5717,100 +5760,168 @@ body.dark .currency-name {
         width: 100%;
     }
 
-    /* ---- Section Spacing ---- */
-    .products {
-        padding: 32px 0 40px;
+    /* ============ HERO — FLAT WHITE ============ */
+
+    .hero-payme {
+        padding: 0;
     }
 
-    .osago {
-        padding: 32px 0 40px;
+    .hero-card {
+        border-radius: 0;
+        background: #fff;
     }
 
-    .why-us {
-        padding: 32px 0 40px;
+    .hero-card::before {
+        display: none;
     }
 
-    .start-choice {
-        padding: 32px 0 40px;
+    .hero-inner {
+        padding: 28px 20px 20px;
+        gap: 20px;
     }
 
-    .section-title {
-        font-size: clamp(20px, 5.5vw, 26px);
+    .hero-heading {
+        font-size: 26px;
+        font-weight: 800;
+        line-height: 1.15;
         margin-bottom: 8px;
+        letter-spacing: -0.3px;
     }
 
-    .section-desc {
-        font-size: 14px;
-        margin-bottom: 24px;
-        padding: 0 4px;
+    .hero-subtitle {
+        font-size: 15px;
+        line-height: 1.45;
+        margin-bottom: 20px;
+        color: var(--text-secondary);
     }
 
-    .badge {
-        font-size: 11px;
-        padding: 5px 12px;
-        margin-bottom: 12px;
+    .hero-plate-input {
+        height: 52px;
+        font-size: 16px !important;
+        padding: 0 100px 0 16px;
+        border-radius: 12px;
+        border: 1.5px solid #E2E5EA;
+        background: #F8F9FA;
     }
 
-    /* ---- Cards: reduce padding ---- */
+    .hero-plate-input:focus {
+        border-color: var(--primary-navy);
+        background: #fff;
+    }
+
+    .hero-cta-btn {
+        width: 100%;
+        height: 52px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 12px;
+        box-shadow: none;
+    }
+
+    .hero-trust-line {
+        justify-content: flex-start;
+        font-size: 12px;
+        margin-top: 8px;
+        opacity: 0.7;
+    }
+
+    .hero-img {
+        max-width: 220px;
+        max-height: 160px;
+    }
+
+    .hero-input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* ============ SECTIONS — CLEAN SPACING ============ */
+
+    .products,
+    .osago,
+    .why-us,
+    .start-choice {
+        padding: 28px 0 36px;
+        text-align: left;
+    }
+
+    /* ============ CARDS — MINIMAL ============ */
+
     .card {
-        padding: 20px 16px;
-        border-radius: 14px;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-card);
     }
 
     .card:hover {
         transform: none;
-        /* Disable hover lift on touch */
+        box-shadow: none;
     }
 
     .card::before {
         display: none;
-        /* Disable hover top-bar on mobile */
+    }
+
+    .product-card {
+        text-align: left;
     }
 
     .product-card h3 {
         font-size: 16px;
+        font-weight: 700;
     }
 
     .product-card p {
-        font-size: 13px;
+        font-size: 14px;
+        line-height: 1.45;
     }
 
     .icon {
         margin-bottom: 12px;
     }
 
-    /* ---- Feature Cards ---- */
+    /* ============ FEATURE CARDS ============ */
+
     .feature-card {
-        padding: 20px 16px;
+        padding: 20px;
+        text-align: left;
     }
 
     .feature-card h3 {
         font-size: 16px;
+        font-weight: 700;
     }
 
     .feature-card p {
-        font-size: 13px;
+        font-size: 14px;
+        line-height: 1.45;
     }
 
     .icon-box {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         border-radius: 10px;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
     }
 
-    /* ---- Simple Feature (Why Us) ---- */
+    /* ============ SIMPLE FEATURES (WHY US) ============ */
+
     .simple-feature {
-        padding: 20px 16px;
-        border-radius: 14px;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--bg-card);
     }
 
     .simple-feature h3 {
         font-size: 16px;
+        font-weight: 700;
     }
 
     .simple-feature p {
-        font-size: 13px;
+        font-size: 14px;
+        line-height: 1.5;
     }
 
     .icon-box-small {
@@ -5819,137 +5930,64 @@ body.dark .currency-name {
         margin-bottom: 10px;
     }
 
-    /* ---- Choice Cards ---- */
+    /* ============ CHOICE CARDS ============ */
+
     .choice-card {
-        padding: 32px 20px;
-    }
-
-    .icon-circle {
-        width: 56px;
-        height: 56px;
-        margin-bottom: 16px;
-    }
-
-    .icon-circle svg {
-        width: 24px;
-        height: 24px;
+        padding: 28px 20px;
+        text-align: left;
+        align-items: flex-start;
+        border: 1px solid var(--border-color);
     }
 
     .choice-card:hover .icon-circle {
         transform: none;
-        /* No hover transform on touch */
+    }
+
+    .icon-circle {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 16px;
+    }
+
+    .icon-circle svg {
+        width: 22px;
+        height: 22px;
     }
 
     .choice-card h3 {
         font-size: 18px;
-        margin-bottom: 10px;
-    }
-
-    .choice-card p {
-        font-size: 13px;
-        margin-bottom: 20px;
-    }
-
-    /* ---- Footer ---- */
-    .footer {
-        padding: 24px 0;
-        font-size: 13px;
-    }
-
-    /* ---- Hero Section (override existing) ---- */
-    .hero-payme {
-        padding: 16px 0 0;
-    }
-
-    .hero-card {
-        border-radius: 20px;
-    }
-
-    .hero-inner {
-        padding: 28px 16px;
-        gap: 20px;
-    }
-
-    .hero-heading {
-        font-size: clamp(22px, 6vw, 28px);
+        font-weight: 700;
         margin-bottom: 8px;
     }
 
-    .hero-subtitle {
+    .choice-card p {
         font-size: 14px;
-        margin-bottom: 16px;
+        margin-bottom: 20px;
+        max-width: 100%;
     }
 
-    .hero-plate-input {
-        height: 50px;
-        font-size: 16px !important;
-        padding: 0 90px 0 16px;
-        border-radius: 12px;
+    /* ============ FOOTER — MINIMAL ============ */
+
+    .footer {
+        padding: 20px 0;
+        font-size: 13px;
+        text-align: center;
     }
 
-    .hero-plate-uz {
-        right: 10px;
-        gap: 6px;
-    }
+    /* ============ WIZARD — CLEAN FORMS ============ */
 
-    .hero-uz-flag {
-        width: 18px;
-        height: 12px;
-    }
-
-    .hero-plate-uz span {
-        font-size: 11px;
-    }
-
-    .hero-cta-btn {
-        width: 100%;
-        height: 50px;
-        font-size: 15px;
-        border-radius: 12px;
-    }
-
-    .hero-trust-line {
-        justify-content: center;
-        font-size: 11px;
-        margin-top: 12px;
-    }
-
-    .hero-visual {
-        display: flex;
-        justify-content: center;
-        order: 2;
-    }
-
-    .hero-img {
-        max-width: 220px;
-        max-height: 160px;
-    }
-
-    .hero-content {
-        order: 1;
-    }
-
-    .hero-input-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .hero-card::before {
-        width: 100%;
-        clip-path: polygon(0 55%, 100% 40%, 100% 100%, 0% 100%);
-    }
-
-    /* ---- Wizard Mobile Improvements ---- */
     .wizard-card {
-        padding: 16px 12px;
-        border-radius: 16px;
+        padding: 20px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border-color);
     }
 
     .wizard-footer {
         flex-direction: column;
         gap: 12px;
-        padding: 16px 12px;
-        border-radius: 16px;
+        padding: 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border-color);
     }
 
     .wizard-footer .btn {
@@ -5962,12 +6000,14 @@ body.dark .currency-name {
     }
 
     .checkbox-wrapper label {
-        font-size: 12px;
+        font-size: 13px;
+        line-height: 1.4;
     }
 
     .form-group label {
-        font-size: 13px;
-        margin-bottom: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 6px;
     }
 
     .form-group input,
@@ -5975,12 +6015,13 @@ body.dark .currency-name {
         min-height: 48px;
         font-size: 16px !important;
         border-radius: 10px;
-        padding: 0 12px;
+        padding: 0 14px;
+        border: 1.5px solid #E2E5EA;
     }
 
     .form-row {
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
     }
 
     .col-half {
@@ -5998,75 +6039,368 @@ body.dark .currency-name {
         font-size: 11px;
     }
 
-    /* ---- Payment Grid ---- */
+    /* ============ PAYMENT ============ */
+
     .payment-grid {
         grid-template-columns: 1fr;
         gap: 12px;
     }
 
     .payment-title {
-        font-size: 24px;
+        font-size: 22px;
+        font-weight: 800;
         margin-bottom: 20px;
     }
 
-    /* ---- Modal ---- */
+    /* ============ MODALS & ALERTS ============ */
+
     .modal-content {
         width: 92%;
-        padding: 24px 16px;
-        border-radius: 16px;
+        padding: 24px 20px;
+        border-radius: 14px;
     }
 
-    /* ---- Alert Dialog ---- */
     .alert-dialog {
         width: 92%;
-        padding: 24px 16px;
+        padding: 24px 20px;
+        border-radius: 14px;
     }
 
-    /* ---- FAB Telegram ---- */
+    /* ============ FAB ============ */
+
     .fab-telegram {
-        width: 50px;
-        height: 50px;
+        width: 48px;
+        height: 48px;
         bottom: 16px;
         right: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ============ DARK MODE MOBILE ============ */
+
+    body.dark .hero-card {
+        background: var(--bg-primary);
+    }
+
+    body.dark .hero-plate-input {
+        border-color: var(--input-border);
+        background: var(--input-bg);
+    }
+
+    body.dark .card,
+    body.dark .simple-feature,
+    body.dark .choice-card,
+    body.dark .wizard-card,
+    body.dark .wizard-footer {
+        border-color: var(--border-color);
     }
 }
 
-/* ---- Extra small screens (320px) ---- */
+/* ============ EXTRA SMALL (≤375px) ============ */
+
 @media (max-width: 375px) {
 
     .container {
-        padding: 0 12px;
+        padding: 0 16px;
     }
 
     .hero-inner {
-        padding: 20px 12px;
+        padding: 24px 16px 20px;
     }
 
     .hero-heading {
-        font-size: 20px;
+        font-size: 22px;
     }
 
     .hero-subtitle {
-        font-size: 13px;
-    }
-
-    .card {
-        padding: 16px 12px;
-    }
-
-    .choice-card {
-        padding: 24px 16px;
+        font-size: 14px;
     }
 
     .section-title {
         font-size: 20px;
     }
 
+    .card,
+    .simple-feature,
+    .choice-card {
+        padding: 16px;
+    }
+
     .wizard-card {
-        padding: 12px 8px;
+        padding: 16px 12px;
     }
 
     .wizard-footer {
-        padding: 12px 8px;
+        padding: 12px;
+    }
+}
+
+/* ========================================= */
+/* AUTHENTICATION UI                         */
+/* Account icon, login modal, auth forms     */
+/* ========================================= */
+
+/* ── Account Icon in Header ── */
+.account-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-color);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+
+.account-icon-btn:hover {
+    background: var(--primary-navy);
+    border-color: var(--primary-navy);
+    color: #fff;
+}
+
+.account-icon-btn.logged-in {
+    background: var(--primary-navy);
+    border-color: var(--primary-navy);
+    color: #fff;
+}
+
+/* ── Auth Modal Overlay ── */
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-modal-overlay.active {
+    display: flex;
+}
+
+.auth-modal {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 40px 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    animation: authModalIn 0.25s ease;
+}
+
+@keyframes authModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.auth-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.auth-modal-close:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* ── Auth Step Content ── */
+.auth-step {
+    text-align: center;
+}
+
+.auth-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.auth-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.4;
+}
+
+.auth-form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.auth-form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.auth-form-group input {
+    width: 100%;
+    height: 48px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0 14px;
+    font-size: 16px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--input-bg, var(--bg-secondary));
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.auth-form-group input:focus {
+    border-color: var(--primary-navy);
+}
+
+/* Phone input with prefix */
+.auth-phone-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-phone-prefix {
+    position: absolute;
+    left: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.auth-phone-input input {
+    padding-left: 58px;
+    letter-spacing: 0.5px;
+}
+
+/* Dev OTP banner */
+.auth-dev-otp {
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: monospace;
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+}
+
+body.dark .auth-dev-otp {
+    background: #422006;
+    color: #FCD34D;
+}
+
+/* Error */
+.auth-error {
+    display: none;
+    font-size: 13px;
+    color: #DC2626;
+    background: #FEF2F2;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+body.dark .auth-error {
+    background: #2d0707;
+    color: #F87171;
+}
+
+/* Primary button */
+.auth-btn {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary-navy);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 4px;
+}
+
+.auth-btn:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.auth-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Link-style secondary button */
+.auth-btn-link {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.auth-btn-link:hover {
+    color: var(--primary-navy);
+}
+
+/* ── Mobile Auth ── */
+@media (max-width: 768px) {
+    .auth-modal {
+        padding: 32px 20px;
+        border-radius: 14px;
+    }
+
+    .account-icon-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .account-icon-btn svg {
+        width: 18px;
+        height: 18px;
     }
 }
